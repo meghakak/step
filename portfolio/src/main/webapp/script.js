@@ -12,16 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Adds a random fun fact to the page.
 function addRandomFunFact() {
   const funFacts =
-      ['I am a Black Belt in Mixed Martial Arts 🥋', 'I am the Internal Vice President of Women in Information and Computer Sciences at UCI 👩💻',
-      'I played trumpet in my high school marching band 🎺', 'I prefer dogs over cats, but both are equally lovable and adorable! 🐶🐱'];
+      ['I am a Black Belt in Mixed Martial Arts 🥋', 
+      'I am the Internal Vice President of Women in Information' +
+      ' and Computer Sciences at UCI 👩💻',
+      'I played trumpet in my high school marching band 🎺', 
+      'I prefer dogs over cats, but both are equally lovable and adorable! 🐶🐱'];
 
   // Pick a random fun fact.
   const funFact = funFacts[Math.floor(Math.random() * funFacts.length)];
 
   // Add it to the page.
-  const funFactContainer = document.getElementById('funFact-container');
+  const funFactContainer = document.getElementById('fun-fact-container');
   funFactContainer.innerText = funFact;
 }

@@ -1,32 +1,40 @@
+.background {
+  background-color: #ff9999;
+}
+
+hr.bar {
+  border: 1px solid black;
+}
+
 .title {
-    text-align: center;
+  text-align: center;
 }
 
 .top-navigation a {
-    float: left;
-    color: #000000;
-    text-align: center;
-    padding: 5px 0px 15px;
-    font-size: 20px;
-    width: 25%;
+  float: left;
+  color: #000000;
+  text-align: center;
+  padding: 5px 0px 15px;
+  font-size: 20px;
+  width: 25%;
 }
 
 .top-navigation a:hover {
-    color: #f2f2f2;
+  color: #f2f2f2;
 }
 
 #content {
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  width: 650px;
 }
 
 #fun-fact-container {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .main-pic {
-    width: 50%;
-    height: 50%;
+  width: 50%;
+  height: 50%;
 }

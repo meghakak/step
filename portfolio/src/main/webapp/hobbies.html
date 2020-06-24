@@ -5,15 +5,15 @@
     <title>My Hobbies</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>    
+      $(function() {
+          $('#top-navigation').load('navbar.html');
+      });
+    </script>
   </head>
   <body class="background">
     <h1 class="title">My Hobbies</h1>
-    <div class="top-navigation"> 
-      <a href="index.html">Home</a>
-      <a href="hobbies.html">Hobbies</a>
-      <a href="gallery.html">Gallery</a>
-      <a href="blog.html">STEP Blog</a>
-    </div>
-    <hr class="bar">
+    <div id="top-navigation"> </div>
   </body>
 </html>

@@ -5,16 +5,16 @@
     <title>My Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>    
+      $(function() {
+          $('#top-navigation').load('navbar.html');
+      });
+    </script>
   </head>
   <body class="background">
     <h1 class="title">Megha Kak</h1>
-    <div class="top-navigation"> 
-      <a href="index.html">Home</a>
-      <a href="hobbies.html">Hobbies</a>
-      <a href="gallery.html">Gallery</a>
-      <a href="blog.html">STEP Blog</a>
-    </div>
-    <hr class="bar">
+    <div id="top-navigation"> </div>
     <div id="content">
       <p>Thank you for checking out my portfolio! My name is Megha and I'm a rising junior at UC Irvine majoring in 
           Computer Science and Engineering. I like to be involved on campus, to make my family and friends laugh, 

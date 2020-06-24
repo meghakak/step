@@ -46,32 +46,24 @@ hr.bar {
 }
  
 table {
-  margin-top: 20px;
+  margin-top: 10px;
   text-align: left;
   font-size: 25px;
   font-family: "Georgia";
 }
  
-.wics-note {
-  margin-top: 20px;
+.hobby-note {
+  margin-top: 10px;
   max-width: 50%;
   float: left;
   font-size: 20px;
 }
  
-.wics-pic {
+.wics-music-pic {
   float: right;
   margin-right: 75%;
   max-height: 115%;
   max-width: 115%;
-  margin-top: 10px;
-}
- 
-.mma-note {
-  margin-top: 20px;
-  max-width: 50%;
-  float: left;
-  font-size: 20px;
 }
  
 .mma-pic {
@@ -79,20 +71,6 @@ table {
   margin-right: 75%;
   max-height: 50%;
   max-width: 50%;
-}
- 
-.music-note {
-  margin-top: 20px;
-  max-width: 50%;
-  float: left;
-  font-size: 20px;
-}
- 
-.music-pic {
-  float: right;
-  margin-right: 75%;
-  max-height: 115%;
-  max-width: 115%;
 }
  
 hr.end-hobby {

@@ -12,6 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+/** jQuery - Allow access of navbar.html to other files. */
+$(document).ready(function() {
+  $('#top-navigation').load('navbar.html');
+});
+
 function addRandomFunFact() {
   const funFacts =
       ['I am a Black Belt in Mixed Martial Arts 🥋', 

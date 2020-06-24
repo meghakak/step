@@ -38,3 +38,40 @@ hr.bar {
   width: 50%;
   height: 50%;
 }
+ 
+.wics-note {
+  max-width: 50%;
+  float: left;
+  font-size: 20px;
+}
+ 
+.wics-pic {
+  height: 15%;
+  width: 15%;
+  float: right;
+  margin-right: 15%;
+}
+
+.wics:after {
+    clear: both;
+}
+
+hr.end-hobby {
+  overflow: visible;
+  height: 30px;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px 0 0 0;
+  border-radius: 20px;
+}
+
+hr.end-hobby:before {
+  display: block;
+  content: "";
+  height: 30px;
+  margin-top: -31px;
+  border-style: solid;
+  border-color: black;
+  border-width: 0 0 1px 0;
+  border-radius: 20px;
+}

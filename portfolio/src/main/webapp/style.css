@@ -38,18 +38,26 @@ hr.bar {
   width: 50%;
   height: 50%;
 }
+
+table.wics {
+    margin-top: 20px;
+    text-align: left;
+    font-size: 25px;
+}
  
 .wics-note {
+  margin-top: 20px;
   max-width: 50%;
   float: left;
   font-size: 20px;
+  vertical-align: center;
 }
  
 .wics-pic {
-  height: 15%;
-  width: 15%;
-  float: right;
-  margin-right: 15%;
+  max-height: 100%;
+  max-width: 100%;
+  vertical-align: center;
+  align-items: center;
 }
 
 .wics:after {
@@ -57,21 +65,20 @@ hr.bar {
 }
 
 hr.end-hobby {
-  overflow: visible;
-  height: 30px;
-  border-style: solid;
-  border-color: black;
-  border-width: 1px 0 0 0;
-  border-radius: 20px;
+  overflow: visible; /* For IE */
+  padding: 0;
+  border: none;
+  border-top: medium double #333;
+  color: #333;
+  text-align: center;
 }
 
-hr.end-hobby:before {
-  display: block;
-  content: "";
-  height: 30px;
-  margin-top: -31px;
-  border-style: solid;
-  border-color: black;
-  border-width: 0 0 1px 0;
-  border-radius: 20px;
+hr.end-hobby:after {
+  content: "§";
+  display: inline-block;
+  position: relative;
+  top: -0.7em;
+  font-size: 1.5em;
+  padding: 0 0.25em;
+  background: #ff9999;
 }

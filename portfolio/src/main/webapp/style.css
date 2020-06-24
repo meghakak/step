@@ -40,9 +40,9 @@ hr.bar {
 }
 
 table.wics {
-    margin-top: 20px;
-    text-align: left;
-    font-size: 25px;
+  margin-top: 20px;
+  text-align: left;
+  font-size: 25px;
 }
  
 .wics-note {
@@ -50,22 +50,18 @@ table.wics {
   max-width: 50%;
   float: left;
   font-size: 20px;
-  vertical-align: center;
-}
- 
-.wics-pic {
-  max-height: 100%;
-  max-width: 100%;
-  vertical-align: center;
-  align-items: center;
 }
 
-.wics:after {
-    clear: both;
+.wics-pic {
+  float: right;
+  margin-right: 75%;
+  max-height: 115%;
+  max-width: 115%;
+  margin-top: 10px;
 }
 
 hr.end-hobby {
-  overflow: visible; /* For IE */
+  overflow: visible;
   padding: 0;
   border: none;
   border-top: medium double #333;

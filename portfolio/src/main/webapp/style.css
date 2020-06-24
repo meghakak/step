@@ -38,3 +38,43 @@ hr.bar {
   width: 50%;
   height: 50%;
 }
+
+table.wics {
+  margin-top: 20px;
+  text-align: left;
+  font-size: 25px;
+}
+ 
+.wics-note {
+  margin-top: 20px;
+  max-width: 50%;
+  float: left;
+  font-size: 20px;
+}
+
+.wics-pic {
+  float: right;
+  margin-right: 75%;
+  max-height: 115%;
+  max-width: 115%;
+  margin-top: 10px;
+}
+
+hr.end-hobby {
+  overflow: visible;
+  padding: 0;
+  border: none;
+  border-top: medium double #333;
+  color: #333;
+  text-align: center;
+}
+
+hr.end-hobby:after {
+  content: '§';
+  display: inline-block;
+  position: relative;
+  top: -0.7em;
+  font-size: 1.5em;
+  padding: 0 0.25em;
+  background: #ff9999;
+}

@@ -1,15 +1,16 @@
 .background {
   background-color: #ff9999;
 }
-
+ 
 hr.bar {
   border: 1px solid black;
 }
-
+ 
 .title {
   text-align: center;
+  font-family: "Georgia";
 }
-
+ 
 .top-navigation a {
   float: left;
   color: #000000;
@@ -17,32 +18,38 @@ hr.bar {
   padding: 5px 0px 15px;
   font-size: 20px;
   width: 25%;
+  font-family: "Georgia";
 }
-
+ 
 .top-navigation a:hover {
   color: #f2f2f2;
 }
-
+ 
 #content {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
   width: 650px;
+  font-family: "Georgia";
+  font-size: 20px;
 }
-
+ 
 #fun-fact-container {
   margin-top: 20px;
+  font-family: "Georgia";
+  font-size: 20px;
 }
-
+ 
 .main-pic {
   width: 50%;
   height: 50%;
 }
-
-table.wics {
+ 
+table {
   margin-top: 20px;
   text-align: left;
   font-size: 25px;
+  font-family: "Georgia";
 }
  
 .wics-note {
@@ -51,7 +58,7 @@ table.wics {
   float: left;
   font-size: 20px;
 }
-
+ 
 .wics-pic {
   float: right;
   margin-right: 75%;
@@ -59,7 +66,35 @@ table.wics {
   max-width: 115%;
   margin-top: 10px;
 }
-
+ 
+.mma-note {
+  margin-top: 20px;
+  max-width: 50%;
+  float: left;
+  font-size: 20px;
+}
+ 
+.mma-pic {
+  float: right;
+  margin-right: 75%;
+  max-height: 50%;
+  max-width: 50%;
+}
+ 
+.music-note {
+  margin-top: 20px;
+  max-width: 50%;
+  float: left;
+  font-size: 20px;
+}
+ 
+.music-pic {
+  float: right;
+  margin-right: 75%;
+  max-height: 115%;
+  max-width: 115%;
+}
+ 
 hr.end-hobby {
   overflow: visible;
   padding: 0;
@@ -68,7 +103,7 @@ hr.end-hobby {
   color: #333;
   text-align: center;
 }
-
+ 
 hr.end-hobby:after {
   content: '§';
   display: inline-block;

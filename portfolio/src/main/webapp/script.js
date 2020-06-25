@@ -33,26 +33,35 @@ function addRandomFunFact() {
   funFactContainer.innerText = funFact;
 }
 
-
+// Initializing slideshow
 var slideIndex = 1;
 showSlides(slideIndex);
 
 /** Slideshow - next and previous controls */
-function plusSlides(n) {
-  showSlides(slideIndex += n);
+function plusSlides(nextOrPrev) {
+  showSlides(slideIndex += nextOrPrev);
 }
 
 /** Slideshow - display image */
-function currentSlide(n) {
-  showSlides(slideIndex = n);
+function currentSlide(index) {
+  showSlides(slideIndex = index);
 }
 
-function showSlides(n) {
+/** Slideshow - display content */
+function showSlides(index) {
   var i;
   var slides = document.getElementsByClassName("slides");
   var dots = document.getElementsByClassName("dot");
-  if (n > slides.length) {slideIndex = 1}
-  if (n < 1) {slideIndex = slides.length}
+
+  // Handling start and end of slideshow cases
+  if (index > slides.length) {
+    slideIndex = 1;
+  }
+  if (index < 1) {
+    slideIndex = slides.length;
+  }
+
+  // Hiding all slides except the current one
   for (i = 0; i < slides.length; i++) {
       slides[i].style.display = "none";
   }

@@ -1,12 +1,13 @@
 .background {
   background-color: #ff9999;
+  font: 20px 'Georgia';
 }
 
 hr.bar {
   border: 1px solid black;
 }
 
-.title {
+.heading {
   text-align: center;
 }
 
@@ -15,7 +16,6 @@ hr.bar {
   color: #000000;
   text-align: center;
   padding: 5px 0px 15px;
-  font-size: 20px;
   width: 25%;
 }
 
@@ -39,25 +39,29 @@ hr.bar {
   height: 50%;
 }
 
-table.wics {
-  margin-top: 20px;
+table {
+  margin-top: 10px;
   text-align: left;
-  font-size: 25px;
-}
- 
-.wics-note {
-  margin-top: 20px;
-  max-width: 50%;
-  float: left;
-  font-size: 20px;
 }
 
-.wics-pic {
+.hobby-note {
+  margin-top: 10px;
+  max-width: 50%;
+  float: left;
+}
+
+.wics-music-pic {
   float: right;
   margin-right: 75%;
   max-height: 115%;
   max-width: 115%;
-  margin-top: 10px;
+}
+
+.mma-pic {
+  float: right;
+  margin-right: 75%;
+  max-height: 50%;
+  max-width: 50%;
 }
 
 hr.end-hobby {

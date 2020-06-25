@@ -33,11 +33,13 @@ function addRandomFunFact() {
   funFactContainer.innerText = funFact;
 }
 
-// Initializing slideshow
+/** Slideshow template from https://www.w3schools.com/howto/howto_js_slideshow.asp */
+
+// Initialize slideshow
 var slideIndex = 1;
 showSlides(slideIndex);
 
-/** Slideshow - next and previous controls */
+/** Slideshow - add next and previous controls */
 function plusSlides(nextOrPrev) {
   showSlides(slideIndex += nextOrPrev);
 }
@@ -53,7 +55,7 @@ function showSlides(index) {
   var slides = document.getElementsByClassName("slides");
   var dots = document.getElementsByClassName("dot");
 
-  // Handling start and end of slideshow cases
+  // Handle start and end of slideshow cases
   if (index > slides.length) {
     slideIndex = 1;
   }
@@ -61,7 +63,7 @@ function showSlides(index) {
     slideIndex = slides.length;
   }
 
-  // Hiding all slides except the current one
+  // Hide all slides except the current one
   for (i = 0; i < slides.length; i++) {
       slides[i].style.display = "none";
   }

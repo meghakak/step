@@ -1,14 +1,14 @@
 .background {
   background-color: #ff9999;
+  font: 20px 'Georgia';
 }
  
 hr.bar {
   border: 1px solid black;
 }
  
-.title {
+.heading {
   text-align: center;
-  font-family: "Georgia";
 }
  
 .top-navigation a {
@@ -16,9 +16,7 @@ hr.bar {
   color: #000000;
   text-align: center;
   padding: 5px 0px 15px;
-  font-size: 20px;
   width: 25%;
-  font-family: "Georgia";
 }
  
 .top-navigation a:hover {
@@ -30,14 +28,10 @@ hr.bar {
   margin-right: auto;
   text-align: center;
   width: 650px;
-  font-family: "Georgia";
-  font-size: 20px;
 }
  
 #fun-fact-container {
   margin-top: 20px;
-  font-family: "Georgia";
-  font-size: 20px;
 }
  
 .main-pic {
@@ -48,15 +42,12 @@ hr.bar {
 table {
   margin-top: 10px;
   text-align: left;
-  font-size: 25px;
-  font-family: "Georgia";
 }
  
 .hobby-note {
   margin-top: 10px;
   max-width: 50%;
   float: left;
-  font-size: 20px;
 }
  
 .wics-music-pic {

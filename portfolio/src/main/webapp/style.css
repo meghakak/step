@@ -2,15 +2,15 @@
   background-color: #ff9999;
   font: 20px 'Georgia';
 }
- 
+
 hr.bar {
   border: 1px solid black;
 }
- 
+
 .heading {
   text-align: center;
 }
- 
+
 .top-navigation a {
   float: left;
   color: #000000;
@@ -18,52 +18,52 @@ hr.bar {
   padding: 5px 0px 15px;
   width: 25%;
 }
- 
+
 .top-navigation a:hover {
   color: #f2f2f2;
 }
- 
+
 #content {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
   width: 650px;
 }
- 
+
 #fun-fact-container {
   margin-top: 20px;
 }
- 
+
 .main-pic {
   width: 50%;
   height: 50%;
 }
- 
+
 table {
   margin-top: 10px;
   text-align: left;
 }
- 
+
 .hobby-note {
   margin-top: 10px;
   max-width: 50%;
   float: left;
 }
- 
+
 .wics-music-pic {
   float: right;
   margin-right: 75%;
   max-height: 115%;
   max-width: 115%;
 }
- 
+
 .mma-pic {
   float: right;
   margin-right: 75%;
   max-height: 50%;
   max-width: 50%;
 }
- 
+
 hr.end-hobby {
   overflow: visible;
   padding: 0;
@@ -72,7 +72,7 @@ hr.end-hobby {
   color: #333;
   text-align: center;
 }
- 
+
 hr.end-hobby:after {
   content: '§';
   display: inline-block;

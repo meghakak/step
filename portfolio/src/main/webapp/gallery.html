@@ -5,10 +5,67 @@
     <title>Gallery</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="script.js"></script>
   </head>
-  <body class="background">
+  <body>
     <h1 class="heading">Gallery</h1>
     <div id="top-navigation"></div>
+    <p class="gallery-note">The image gallery below includes many pictures of me with my family and friends as well as 
+      some of my hobbies! Feel free to scroll through the slideshow and enjoy :)</p>
+    <div class="slideshow-container">
+      <div class="slides fade">
+        <div class="number-text">1 / 8</div>
+        <img src="images/mmaTeam.jpg" class="slides-image" alt="Image of MMA team.">
+        <div class="slides-text">MMA Black Belt Testing Team 🥋</div>
+      </div>
+      <div class="slides fade">
+        <div class="number-text">2 / 8</div>
+        <img src="images/ball.JPG" class="slides-image" alt="Image of senior ball.">
+        <div class="slides-text">Senior Ball 2018 ✨</div>
+      </div>
+      <div class="slides fade">
+        <div class="number-text">3 / 8</div>
+        <img src="images/family.JPG" class="slides-image" alt="Image of me and my cousins.">
+        <div class="slides-text">The Cousin Sister Trio</div>
+      </div>
+      <div class="slides fade">
+        <div class="number-text">4 / 8</div>
+        <img src="images/wicsTrio.JPG" class="slides-image" alt="Image of WICS friends.">
+        <div class="slides-text">WICS friends!</div>
+      </div>
+      <div class="slides fade">
+        <div class="number-text">5 / 8</div>
+        <img src="images/swag.JPG" class="slides-image" alt="Image of Google Intern swag.">
+        <div class="slides-text">Google Intern Swag 😎</div>
+      </div>
+      <div class="slides fade">
+        <div class="number-text">6 / 8</div>
+        <img src="images/favFood.jpg" class="slides-image" alt="Image of somi somi.">
+        <div class="slides-text">My favorite food: Ah-Boong from Somi Somi!</div>
+      </div>
+      <div class="slides fade">
+        <div class="number-text">7 / 8</div>
+        <img src="images/friends.JPG" class="slides-image" alt="Image of my UCI friends.">
+        <div class="slides-text">Best friends from UC Irvine ❣</div>
+      </div>
+      <div class="slides fade">
+        <div class="number-text">8 / 8</div>
+        <img src="images/littleMegha.JPG" class="slides-image" alt="Image of younger me.">
+        <div class="slides-text">Me at a younger age :)</div>
+      </div>
+      <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+      <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+    <br>
+    <div class="dot-position">
+      <span class="dot" onclick="currentSlide(1)"></span>
+      <span class="dot" onclick="currentSlide(2)"></span>
+      <span class="dot" onclick="currentSlide(3)"></span>
+      <span class="dot" onclick="currentSlide(4)"></span>
+      <span class="dot" onclick="currentSlide(5)"></span>
+      <span class="dot" onclick="currentSlide(6)"></span>
+      <span class="dot" onclick="currentSlide(7)"></span>
+      <span class="dot" onclick="currentSlide(8)"></span>
+    </div>
+    <script src="script.js"></script>
   </body>
 </html>

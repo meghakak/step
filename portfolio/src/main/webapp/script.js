@@ -32,3 +32,43 @@ function addRandomFunFact() {
   const funFactContainer = document.getElementById('fun-fact-container');
   funFactContainer.innerText = funFact;
 }
+
+/** Slideshow template from https://www.w3schools.com/howto/howto_js_slideshow.asp */
+
+// Initialize slideshow
+var slideIndex = 1;
+showSlides(slideIndex);
+
+/** Slideshow - add next and previous controls */
+function plusSlides(nextOrPrev) {
+  showSlides(slideIndex += nextOrPrev);
+}
+
+/** Slideshow - display image */
+function currentSlide(index) {
+  showSlides(slideIndex = index);
+}
+
+/** Slideshow - display content */
+function showSlides(index) {
+  var slides = document.getElementsByClassName("slides");
+  var dots = document.getElementsByClassName("dot");
+
+  // Handle start and end of slideshow cases
+  if (index > slides.length) {
+    slideIndex = 1;
+  }
+  if (index < 1) {
+    slideIndex = slides.length;
+  }
+
+  // Hide all slides except the current one
+  for (var slideListIndex = 0; slideListIndex < slides.length; slideListIndex++) {
+    slides[slideListIndex].style.display = "none";
+  }
+  for (var dotIndex = 0; dotIndex < dots.length; dotIndex++) {
+    dots[dotIndex].className = dots[dotIndex].className.replace(" dot-active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " dot-active";
+}

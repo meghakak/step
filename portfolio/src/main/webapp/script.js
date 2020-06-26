@@ -35,25 +35,27 @@ function addRandomFunFact() {
 
 /** Accordion / collapsible template from https://www.w3schools.com/howto/howto_js_accordion.asp */
 
-// jQuery - Initialize collapsible
+// jQuery - Initialize accordion / collapsible
 if($('body').is('.blog')) {
   showAccordion();
 }
 
 /** Display accordion / collapsible */
 function showAccordion() {
-  var acc = document.getElementsByClassName("accordion");
-  var i;
-  for (i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var panel = this.nextElementSibling;
-    if (panel.style.maxHeight) {
-    panel.style.maxHeight = null;
-    } else {
-    panel.style.maxHeight = panel.scrollHeight + "px";
-    }
-  });
+  var accordion = document.getElementsByClassName("accordion");
+
+  // Open chosen panel(s) and hide all other panels
+  for (var accordionIndex = 0; accordionIndex < accordion.length; accordionIndex++) {
+    accordion[accordionIndex].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var panel = this.nextElementSibling;
+      if (panel.style.maxHeight) {
+        panel.style.maxHeight = null;
+      } 
+      else {
+        panel.style.maxHeight = panel.scrollHeight + "px";
+      }
+    });
   }
 }
 

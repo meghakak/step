@@ -178,6 +178,10 @@ hr.end-hobby:after {
   to {opacity: 1}
 }
 
+.blog-intro {
+  text-align: center;
+}
+
 .accordion {
   background-color: #eee;
   color: #444;
@@ -187,7 +191,7 @@ hr.end-hobby:after {
   outline: none;
   transition: 0.4s;
   border: 1px solid black;
-  width: 50%;
+  width: 100%;
 }
 
 .active, .accordion:hover {
@@ -200,7 +204,6 @@ hr.end-hobby:after {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.2s ease-out;
-  width: 50%;
 }
 
 .accordion:after {

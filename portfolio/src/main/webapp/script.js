@@ -33,11 +33,37 @@ function addRandomFunFact() {
   funFactContainer.innerText = funFact;
 }
 
+/** Accordion / collapsible template from https://www.w3schools.com/howto/howto_js_accordion.asp */
+
+// jQuery - Initialize collapsible
+if($('body').is('.blog')) {
+  showAccordion();
+}
+
+/** Display accordion / collapsible */
+function showAccordion() {
+  var acc = document.getElementsByClassName("accordion");
+  var i;
+  for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+    panel.style.maxHeight = null;
+    } else {
+    panel.style.maxHeight = panel.scrollHeight + "px";
+    }
+  });
+  }
+}
+
 /** Slideshow template from https://www.w3schools.com/howto/howto_js_slideshow.asp */
 
-// Initialize slideshow
-var slideIndex = 1;
-showSlides(slideIndex);
+// jQuery - Initialize slideshow
+if($('body').is('.gallery')) {
+  var slideIndex = 1;
+  showSlides(slideIndex);
+}
 
 /** Slideshow - add next and previous controls */
 function plusSlides(nextOrPrev) {

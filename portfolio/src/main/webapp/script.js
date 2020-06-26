@@ -47,11 +47,11 @@ function showAccordion() {
   // Open chosen panel(s) and hide all other panels
   for (var accordionIndex = 0; accordionIndex < accordion.length; accordionIndex++) {
     accordion[accordionIndex].addEventListener("click", function() {
-      this.classList.toggle("active");
+      this.classList.toggle("panel-active");
       var panel = this.nextElementSibling;
       if (panel.style.maxHeight) {
         panel.style.maxHeight = null;
-      } 
+      }
       else {
         panel.style.maxHeight = panel.scrollHeight + "px";
       }

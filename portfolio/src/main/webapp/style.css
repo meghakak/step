@@ -194,7 +194,16 @@ hr.end-hobby:after {
   width: 100%;
 }
 
-.active, .accordion:hover {
+.accordion-left {
+  margin: 0% 2% 0% 1%;
+}
+
+.accordion-both {
+  width: 48%;
+  float: left;
+}
+
+.panel-active, .accordion:hover {
   background-color: #ccc;
 }
 
@@ -214,6 +223,6 @@ hr.end-hobby:after {
   margin-left: 5px;
 }
 
-.active:after {
-  content: "\2796";
+.panel-active:after {
+  content: '\2796';
 }

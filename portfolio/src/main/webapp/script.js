@@ -49,12 +49,7 @@ function showAccordion() {
     accordion[accordionIndex].addEventListener("click", function() {
       this.classList.toggle("panel-active");
       var panel = this.nextElementSibling;
-      if (panel.style.maxHeight) {
-        panel.style.maxHeight = null;
-      }
-      else {
-        panel.style.maxHeight = panel.scrollHeight + "px";
-      }
+      panel.style.maxHeight = panel.style.maxHeight ? null : panel.scrollHeight + "px";
     });
   }
 }

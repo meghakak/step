@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  private static final ImmutableList FRUIT_FACTS = ImmutableList.of("A strawberry is not an actual berry", 
+  private static final ImmutableList<String> FRUIT_FACTS = ImmutableList.of("A strawberry is not an actual berry", 
   "Kiwis contain more Vitamin C than oranges", "The pineapple is actually a berry");
 
   @Override
@@ -38,7 +38,7 @@ public class DataServlet extends HttpServlet {
     response.getWriter().println(fruitFactsJson);
   }
 
-  private String convertToJsonUsingGson(ImmutableList fruitFacts) {
+  private String convertToJsonUsingGson(ImmutableList<String> fruitFacts) {
     Gson gson = new Gson();
     String json = gson.toJson(fruitFacts);
     return json;

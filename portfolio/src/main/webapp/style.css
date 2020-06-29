@@ -4,7 +4,7 @@ body {
 }
 
 hr.bar {
-  border: 1px solid black;
+  border: 1px solid #000000;
 }
 
 .heading {
@@ -52,7 +52,7 @@ table {
 
 .wics-music-pic {
   float: right;
-  margin-right: 75%;
+  margin-right: 100%;
   max-height: 115%;
   max-width: 115%;
 }
@@ -109,7 +109,7 @@ hr.end-hobby:after {
   width: auto;
   margin-top: -22px;
   padding: 16px;
-  color: white;
+  color: #fff;
   font: bold 18px;
   transition: 0.6s ease;
   border-radius: 0 3px 3px 0;
@@ -176,4 +176,53 @@ hr.end-hobby:after {
 @keyframes fade {
   from {opacity: .4}
   to {opacity: 1}
+}
+
+.blog-intro {
+  text-align: center;
+}
+
+.accordion {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  text-align: left;
+  outline: none;
+  transition: 0.4s;
+  border: 1px solid #000000;
+  width: 100%;
+}
+
+.accordion-left {
+  margin: 0% 2% 0% 1%;
+}
+
+.accordion-both {
+  width: 48%;
+  float: left;
+}
+
+.panel-active, .accordion:hover {
+  background-color: #ccc;
+}
+
+.panel {
+  padding: 0 18px;
+  background-color: #fff;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
+.accordion:after {
+  content: '\02795';
+  font-size: 13px;
+  color: #777;
+  float: right;
+  margin-left: 5px;
+}
+
+.panel-active:after {
+  content: '\2796';
 }

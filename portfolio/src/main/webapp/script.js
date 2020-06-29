@@ -33,11 +33,34 @@ function addRandomFunFact() {
   funFactContainer.innerText = funFact;
 }
 
+/** Accordion / collapsible template from https://www.w3schools.com/howto/howto_js_accordion.asp */
+
+// jQuery - Initialize accordion / collapsible
+if($('body').is('.blog')) {
+  showAccordion();
+}
+
+/** Display accordion / collapsible */
+function showAccordion() {
+  var accordion = document.getElementsByClassName('accordion');
+
+  // Open chosen panel(s) and hide all other panels
+  for (var accordionIndex = 0; accordionIndex < accordion.length; accordionIndex++) {
+    accordion[accordionIndex].addEventListener('click', function() {
+      this.classList.toggle('panel-active');
+      var panel = this.nextElementSibling;
+      panel.style.maxHeight = panel.style.maxHeight ? null : panel.scrollHeight + 'px';
+    });
+  }
+}
+
 /** Slideshow template from https://www.w3schools.com/howto/howto_js_slideshow.asp */
 
-// Initialize slideshow
-var slideIndex = 1;
-showSlides(slideIndex);
+// jQuery - Initialize slideshow
+if($('body').is('.gallery')) {
+  var slideIndex = 1;
+  showSlides(slideIndex);
+}
 
 /** Slideshow - add next and previous controls */
 function plusSlides(nextOrPrev) {
@@ -51,8 +74,8 @@ function currentSlide(index) {
 
 /** Slideshow - display content */
 function showSlides(index) {
-  var slides = document.getElementsByClassName("slides");
-  var dots = document.getElementsByClassName("dot");
+  var slides = document.getElementsByClassName('slides');
+  var dots = document.getElementsByClassName('dot');
 
   // Handle start and end of slideshow cases
   if (index > slides.length) {
@@ -64,11 +87,11 @@ function showSlides(index) {
 
   // Hide all slides except the current one
   for (var slideListIndex = 0; slideListIndex < slides.length; slideListIndex++) {
-    slides[slideListIndex].style.display = "none";
+    slides[slideListIndex].style.display = 'none';
   }
   for (var dotIndex = 0; dotIndex < dots.length; dotIndex++) {
-    dots[dotIndex].className = dots[dotIndex].className.replace(" dot-active", "");
+    dots[dotIndex].className = dots[dotIndex].className.replace(' dot-active','');
   }
-  slides[slideIndex-1].style.display = "block";
-  dots[slideIndex-1].className += " dot-active";
+  slides[slideIndex-1].style.display = 'block';
+  dots[slideIndex-1].className += ' dot-active';
 }

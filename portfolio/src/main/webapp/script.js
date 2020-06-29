@@ -95,3 +95,10 @@ function showSlides(index) {
   slides[slideIndex-1].style.display = 'block';
   dots[slideIndex-1].className += ' dot-active';
 }
+
+/** Fetch message from /data and push to index.html */
+async function getMessage() {
+  const response = await fetch('/data');
+  const message = await response.text();
+  document.getElementById('message-container').innerText = message;
+}

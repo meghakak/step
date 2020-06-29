@@ -97,8 +97,8 @@ function showSlides(index) {
 }
 
 /** Fetch message from /data and push to index.html */
-async function getMessage() {
+async function getFruitFact() {
   const response = await fetch('/data');
   const message = await response.text();
-  document.getElementById('message-container').innerText = message;
+  document.getElementById('fruit-fact-container').innerText = message;
 }

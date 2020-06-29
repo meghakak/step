@@ -16,6 +16,7 @@ package com.google.sps.servlets;
 
 import java.util.ArrayList;
 import com.google.gson.Gson;
+import com.google.common.collect.ImmutableList;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,28 +26,19 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  private ArrayList<String> fruitFacts;
-
-  @Override
-  public void init() {
-    fruitFacts = new ArrayList<>();
-    fruitFacts.add("A strawberry is not an actual berry");
-    fruitFacts.add("Kiwis contain more Vitamin C than oranges");
-    fruitFacts.add("The pineapple is actually a berry");    
-  }
+  private static final ImmutableList FRUIT_FACTS = ImmutableList.of("A strawberry is not an actual berry", 
+  "Kiwis contain more Vitamin C than oranges", "The pineapple is actually a berry");
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Convert the fruitFacts ArrayList to JSON
-    String json = convertToJsonUsingGson(fruitFacts);
+    String fruitFactsJson = convertToJsonUsingGson(FRUIT_FACTS);
 
     // Send the JSON as the response
     response.setContentType("application/json;");
-    response.getWriter().println(json);
+    response.getWriter().println(fruitFactsJson);
   }
 
-  /** Convert an ArrayList instance into a JSON string using the Gson library. */
-  private String convertToJsonUsingGson(ArrayList<String> fruitFacts) {
+  private String convertToJsonUsingGson(ImmutableList fruitFacts) {
     Gson gson = new Gson();
     String json = gson.toJson(fruitFacts);
     return json;

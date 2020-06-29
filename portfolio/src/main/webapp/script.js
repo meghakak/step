@@ -102,9 +102,10 @@ function getFruitFacts() {
     // Reference each element in facts to create HTML content
     const factsListElement = document.getElementById('fruit-facts-container');
     factsListElement.innerHTML = '';
+    var factContent;
     for (var factIndex = 0; factIndex < facts.length; factIndex++) {
-      factsListElement.appendChild(
-        createListElement('Fact ' + (factIndex + 1).toString() + ' : ' + facts[factIndex]));
+      factContent = 'Fact ' + (factIndex + 1).toString() + ' : ' + facts[factIndex];
+      factsListElement.appendChild(createListElement(factContent));
     }
   });
 }

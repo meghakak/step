@@ -4,7 +4,7 @@ body {
 }
 
 hr.bar {
-  border: 1px solid black;
+  border: 1px solid #000000;
 }
 
 .heading {
@@ -109,7 +109,7 @@ hr.end-hobby:after {
   width: auto;
   margin-top: -22px;
   padding: 16px;
-  color: white;
+  color: #fff;
   font: bold 18px;
   transition: 0.6s ease;
   border-radius: 0 3px 3px 0;
@@ -190,7 +190,7 @@ hr.end-hobby:after {
   text-align: left;
   outline: none;
   transition: 0.4s;
-  border: 1px solid black;
+  border: 1px solid #000000;
   width: 100%;
 }
 
@@ -209,7 +209,7 @@ hr.end-hobby:after {
 
 .panel {
   padding: 0 18px;
-  background-color: white;
+  background-color: #fff;
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.2s ease-out;

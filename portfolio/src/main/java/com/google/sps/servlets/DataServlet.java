@@ -14,6 +14,8 @@
 
 package com.google.sps.servlets;
 
+import com.google.gson.Gson;
+import com.google.common.collect.ImmutableList;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,10 +25,24 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
+  private static final ImmutableList<String> FRUIT_FACTS =
+    ImmutableList.of(
+      "A strawberry is not an actual berry", 
+      "Kiwis contain more Vitamin C than oranges", 
+      "The pineapple is actually a berry");
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html;");
-    response.getWriter().println("Kiwis contain more Vitamin C than oranges :o");
+    String fruitFactsJson = convertToJsonUsingGson(FRUIT_FACTS);
+
+    // Send the JSON as the response
+    response.setContentType("application/json;");
+    response.getWriter().println(fruitFactsJson);
+  }
+
+  private String convertToJsonUsingGson(ImmutableList<String> fruitFacts) {
+    Gson gson = new Gson();
+    String json = gson.toJson(fruitFacts);
+    return json;
   }
 }

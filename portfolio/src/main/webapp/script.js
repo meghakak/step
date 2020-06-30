@@ -96,9 +96,23 @@ function showSlides(index) {
   dots[slideIndex-1].className += ' dot-active';
 }
 
-/** Fetch message from /data and push to index.html */
-async function getFruitFact() {
-  const response = await fetch('/data');
-  const message = await response.text();
-  document.getElementById('fruit-fact-container').innerText = message;
+/** Fetch fruit facts and add them to the DOM. */
+function getFruitFacts() {
+  fetch('/data').then(response => response.json()).then((facts) => {  
+    // Reference each element in facts to create HTML content
+    const factsListElement = document.getElementById('fruit-facts-container');
+    factsListElement.innerHTML = '';
+    var factContent;
+    for (var factIndex = 0; factIndex < facts.length; factIndex++) {
+      factContent = 'Fact ' + (factIndex + 1).toString() + ' : ' + facts[factIndex];
+      factsListElement.appendChild(createListElement(factContent));
+    }
+  });
+}
+
+/** Create an <li> element containing text. */
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
 }

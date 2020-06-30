@@ -96,14 +96,16 @@ function showSlides(index) {
   dots[slideIndex-1].className += ' dot-active';
 }
 
-/** Fetch user's fact and add them to the DOM. */
+/** Fetch user's facts and add them to the DOM. */
 function getUserFacts() {
   fetch('/data').then(response => response.json()).then((oldFacts) => {  
-    // Reference each element in facts to create HTML content
+    // Reference each element in oldFacts to create HTML content
     const factsListElement = document.getElementById('user-facts-container');
     factsListElement.innerHTML = '';
-    for (var factIndex = 0; factIndex < oldFacts.length; factIndex++) {
-      factsListElement.appendChild(createListElement(oldFacts[factIndex]));
+    for(var key in oldFacts) {
+      if (oldFacts.hasOwnProperty(key)) {
+        factsListElement.appendChild(createListElement(key + ": " + oldFacts[key]));
+      }
     }
   });
 }

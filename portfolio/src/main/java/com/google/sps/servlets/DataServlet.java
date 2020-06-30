@@ -14,7 +14,7 @@
 
 package com.google.sps.servlets;
 
-import java.util.ArrayList;
+import java.util.*;
 import com.google.gson.Gson;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns some example content. */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  private ArrayList<String> OLD_FACTS = new ArrayList<String>();
+  private HashMap<String, String> OLD_FACTS = new HashMap<String, String>();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -36,7 +36,7 @@ public class DataServlet extends HttpServlet {
     response.getWriter().println(oldFactsJson);
   }
 
-  private String convertToJsonUsingGson(ArrayList<String> oldFacts) {
+  private String convertToJsonUsingGson(HashMap<String, String> oldFacts) {
     Gson gson = new Gson();
     String json = gson.toJson(oldFacts);
     return json;
@@ -47,17 +47,42 @@ public class DataServlet extends HttpServlet {
     // Get the input from the form.
     String userFirstName = getParameter(request, "first-name", "");
     String userLastName = getParameter(request, "last-name", "");
-    String userFunFact = getParameter(request, "user-fun-fact", "N/A");
-    String factContent = userFirstName + " " + userLastName + ": " + userFunFact;
+    String userFunFact = getParameter(request, "user-fun-fact", "");
+
+    // Define key and value pair to add to OLD_FACTS
+    String factKey;
+    if (userFirstName.isEmpty() && userLastName.isEmpty()) {
+      factKey = "Anonymous";
+    }
+    else if (userFirstName.isEmpty()) {
+      factKey = userLastName;
+    }
+    else if (userLastName.isEmpty()) {
+      factKey = userFirstName;
+    }
+    else {
+      factKey = userFirstName + " " + userLastName;
+    }
+    String factValue = "";
+    if (!(userFunFact.isEmpty())) {
+      if (OLD_FACTS.containsKey(factKey)) {
+        factValue = OLD_FACTS.get(factKey) + ", " + userFunFact;
+        OLD_FACTS.remove(factKey);
+      }
+      else {
+        factValue = userFunFact;
+      }
+    }
     
     // Store user's input to access later
-    OLD_FACTS.add(factContent);
+    if (!(userFunFact.isEmpty())) {
+      OLD_FACTS.put(factKey, factValue);
+    }
 
     // Redirect back to the HTML page.
     response.sendRedirect("/index.html");
-    response.getWriter().println(factContent);
+    response.getWriter().println(factKey + ": " + factValue);
   }
-
 
   /**
    * @return the request parameter, or the default value if the parameter

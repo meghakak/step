@@ -16,17 +16,16 @@ package com.google.sps.servlets;
 
 import java.util.ArrayList;
 import com.google.gson.Gson;
-import com.google.common.collect.ImmutableList;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+/** Servlet that returns some example content. */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  private ArrayList<String> OLD_FACTS;
+  private ArrayList<String> OLD_FACTS = new ArrayList<String>();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -43,18 +42,32 @@ public class DataServlet extends HttpServlet {
     return json;
   }
 
-  // TODO: Edit doPost function
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
-    String userFirstName = request.getParameter("first-name");
-    String userLastName = request.getParameter("last-name");
-    String userFunFact = request.getParameter("user-fun-fact");
+    String userFirstName = getParameter(request, "first-name", "");
+    String userLastName = getParameter(request, "last-name", "");
+    String userFunFact = getParameter(request, "user-fun-fact", "N/A");
+    String factContent = userFirstName + " " + userLastName + ": " + userFunFact;
     
-    // Store user's input to access later - causing NullPointer Exception Error
-    OLD_FACTS.add(userFirstName + " " + userLastName + ": " + userFunFact);
+    // Store user's input to access later
+    OLD_FACTS.add(factContent);
 
     // Redirect back to the HTML page.
     response.sendRedirect("/index.html");
+    response.getWriter().println(factContent);
+  }
+
+
+  /**
+   * @return the request parameter, or the default value if the parameter
+   *         was not specified by the client
+   */
+  private String getParameter(HttpServletRequest request, String content, String defaultValue) {
+    String value = request.getParameter(content);
+    if (value == null || value.isEmpty()) {
+      return defaultValue;
+    }
+    return value;
   }
 }

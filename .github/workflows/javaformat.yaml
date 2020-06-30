@@ -1,0 +1,12 @@
+name: Java Format
+
+on: [push]
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+
+    steps:
+	- name: Google Java Format
+	uses: axel-op/googlejavaformat-action@v3.1.0
+	

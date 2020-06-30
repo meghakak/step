@@ -14,6 +14,7 @@
 
 package com.google.sps.servlets;
 
+import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.common.collect.ImmutableList;
 import java.io.IOException;
@@ -25,24 +26,35 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  private static final ImmutableList<String> FRUIT_FACTS =
-    ImmutableList.of(
-      "A strawberry is not an actual berry", 
-      "Kiwis contain more Vitamin C than oranges", 
-      "The pineapple is actually a berry");
+  private ArrayList<String> OLD_FACTS;
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String fruitFactsJson = convertToJsonUsingGson(FRUIT_FACTS);
+    String oldFactsJson = convertToJsonUsingGson(OLD_FACTS);
 
     // Send the JSON as the response
     response.setContentType("application/json;");
-    response.getWriter().println(fruitFactsJson);
+    response.getWriter().println(oldFactsJson);
   }
 
-  private String convertToJsonUsingGson(ImmutableList<String> fruitFacts) {
+  private String convertToJsonUsingGson(ArrayList<String> oldFacts) {
     Gson gson = new Gson();
-    String json = gson.toJson(fruitFacts);
+    String json = gson.toJson(oldFacts);
     return json;
+  }
+
+  // TODO: Edit doPost function
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Get the input from the form.
+    String userFirstName = request.getParameter("first-name");
+    String userLastName = request.getParameter("last-name");
+    String userFunFact = request.getParameter("user-fun-fact");
+    
+    // Store user's input to access later - causing NullPointer Exception Error
+    OLD_FACTS.add(userFirstName + " " + userLastName + ": " + userFunFact);
+
+    // Redirect back to the HTML page.
+    response.sendRedirect("/index.html");
   }
 }

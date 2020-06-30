@@ -14,7 +14,8 @@
 
 package com.google.sps.servlets;
 
-import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
 import com.google.gson.Gson;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -22,21 +23,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some example content. */
+/** Servlet that returns inputted fun facts from users and stores previously inputted facts. */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  private HashMap<String, String> OLD_FACTS = new HashMap<String, String>();
+  private Map<String, String> oldFacts = new HashMap<String, String>();
+  private static final String FIRST_NAME_KEY = "first-name";
+  private static final String LAST_NAME_KEY = "last-name";
+  private static final String FUN_FACT_KEY = "user-fun-fact";
+  private static final String NO_NAME = "Anonymous";
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String oldFactsJson = convertToJsonUsingGson(OLD_FACTS);
+    String oldFactsJson = convertToJsonUsingGson(oldFacts);
 
     // Send the JSON as the response
     response.setContentType("application/json;");
     response.getWriter().println(oldFactsJson);
   }
 
-  private String convertToJsonUsingGson(HashMap<String, String> oldFacts) {
+  private static String convertToJsonUsingGson(Map<String, String> oldFacts) {
     Gson gson = new Gson();
     String json = gson.toJson(oldFacts);
     return json;
@@ -45,50 +50,58 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
-    String userFirstName = getParameter(request, "first-name", "");
-    String userLastName = getParameter(request, "last-name", "");
-    String userFunFact = getParameter(request, "user-fun-fact", "");
+    String userFirstName = getParameter(request, /*content=*/ FIRST_NAME_KEY, /*defaultValue=*/ "");
+    String userLastName = getParameter(request, /*content=*/ LAST_NAME_KEY, /*defaultValue=*/ "");
+    String userFunFact = getParameter(request, /*content=*/ FUN_FACT_KEY, /*defaultValue=*/ "");
 
-    // Define key and value pair to add to OLD_FACTS
-    String factKey;
-    if (userFirstName.isEmpty() && userLastName.isEmpty()) {
-      factKey = "Anonymous";
+    // No need to change oldFacts if there is no new fact
+    if (userFunFact.isEmpty()) {
+      response.sendRedirect("/index.html");
+      return;
     }
-    else if (userFirstName.isEmpty()) {
-      factKey = userLastName;
-    }
-    else if (userLastName.isEmpty()) {
-      factKey = userFirstName;
-    }
-    else {
-      factKey = userFirstName + " " + userLastName;
-    }
-    String factValue = "";
-    if (!(userFunFact.isEmpty())) {
-      if (OLD_FACTS.containsKey(factKey)) {
-        factValue = OLD_FACTS.get(factKey) + ", " + userFunFact;
-        OLD_FACTS.remove(factKey);
-      }
-      else {
-        factValue = userFunFact;
-      }
-    }
+
+    // Define key and value pair to add to oldFacts
+    String factKey = getFactKey(userFirstName, userLastName);
+    String factValue = getFactValue(oldFacts, userFunFact, factKey);
     
     // Store user's input to access later
-    if (!(userFunFact.isEmpty())) {
-      OLD_FACTS.put(factKey, factValue);
-    }
+    oldFacts.put(factKey, factValue);
 
     // Redirect back to the HTML page.
     response.sendRedirect("/index.html");
     response.getWriter().println(factKey + ": " + factValue);
   }
 
-  /**
-   * @return the request parameter, or the default value if the parameter
-   *         was not specified by the client
-   */
-  private String getParameter(HttpServletRequest request, String content, String defaultValue) {
+  private static String getFactKey(String firstName, String lastName) {
+    String factKey;
+    if (firstName.isEmpty() && lastName.isEmpty()) {
+      factKey = NO_NAME;
+    }
+    else if (firstName.isEmpty()) {
+      factKey = lastName;
+    }
+    else if (lastName.isEmpty()) {
+      factKey = firstName;
+    }
+    else {
+      factKey = firstName + " " + lastName;
+    }
+    return factKey;
+  }
+
+  private static String getFactValue(Map<String, String> oldFacts, String funFact, String factKey) {
+    String factValue;
+    if (oldFacts.containsKey(factKey)) {
+      factValue = oldFacts.get(factKey) + ", " + funFact;
+      oldFacts.remove(factKey);
+    }
+    else {
+      factValue = funFact;
+    }
+    return factValue;
+  }
+
+  private static String getParameter(HttpServletRequest request, String content, String defaultValue) {
     String value = request.getParameter(content);
     if (value == null || value.isEmpty()) {
       return defaultValue;

@@ -96,16 +96,16 @@ function showSlides(index) {
   dots[slideIndex-1].className += ' dot-active';
 }
 
-/** Fetch fruit facts and add them to the DOM. */
-function getFruitFacts() {
-  fetch('/data').then(response => response.json()).then((facts) => {  
-    // Reference each element in facts to create HTML content
-    const factsListElement = document.getElementById('fruit-facts-container');
+/** Fetch user's facts and add them to the DOM. */
+function getUserFacts() {
+  fetch('/data').then(response => response.json()).then((oldFacts) => {  
+    // Reference each element in oldFacts to create HTML content
+    const factsListElement = document.getElementById('user-facts-container');
     factsListElement.innerHTML = '';
-    var factContent;
-    for (var factIndex = 0; factIndex < facts.length; factIndex++) {
-      factContent = 'Fact ' + (factIndex + 1).toString() + ' : ' + facts[factIndex];
-      factsListElement.appendChild(createListElement(factContent));
+    for(const key in oldFacts) {
+      if (oldFacts.hasOwnProperty(key)) {
+        factsListElement.appendChild(createListElement(key + ': ' + oldFacts[key]));
+      }
     }
   });
 }

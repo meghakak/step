@@ -14,6 +14,9 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import java.util.Map;
 import java.util.HashMap;
 import com.google.gson.Gson;
@@ -23,6 +26,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+// TODO: Find a way to only allow unique usernames (but returning users should be able to write additional comments)
 /** Servlet that returns inputted fun facts from users and stores previously inputted facts. */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
@@ -64,6 +68,12 @@ public class DataServlet extends HttpServlet {
     
     // Store user's input to access later
     oldFacts.put(factKey, factValue);
+    Entity funFactEntity = new Entity("FunFact");
+    funFactEntity.setProperty("name", factKey);
+    funFactEntity.setProperty("fact", factValue);
+ 
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(funFactEntity);
 
     // Redirect back to the HTML page.
     response.sendRedirect("/index.html");

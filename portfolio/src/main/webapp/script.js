@@ -102,7 +102,7 @@ function getUserFacts() {
     // Reference each element in oldFacts to create HTML content
     const factsListElement = document.getElementById('user-facts-container');
     factsListElement.innerHTML = '';
-    for(var key in oldFacts) {
+    for(const key in oldFacts) {
       if (oldFacts.hasOwnProperty(key)) {
         factsListElement.appendChild(createListElement(key + ': ' + oldFacts[key]));
       }

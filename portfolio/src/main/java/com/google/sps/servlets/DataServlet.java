@@ -26,11 +26,11 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns inputted fun facts from users and stores previously inputted facts. */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  private Map<String, String> oldFacts = new HashMap<String, String>();
   private static final String FIRST_NAME_KEY = "first-name";
   private static final String LAST_NAME_KEY = "last-name";
   private static final String FUN_FACT_KEY = "user-fun-fact";
   private static final String NO_NAME = "Anonymous";
+  private Map<String, String> oldFacts = new HashMap<String, String>();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -93,7 +93,6 @@ public class DataServlet extends HttpServlet {
     String factValue;
     if (oldFacts.containsKey(factKey)) {
       factValue = oldFacts.get(factKey) + ", " + funFact;
-      oldFacts.remove(factKey);
     }
     else {
       factValue = funFact;

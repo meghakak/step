@@ -26,8 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns inputted fun facts from users and stores previously inputted facts. */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  private static final String FIRST_NAME_KEY = "first-name";
-  private static final String LAST_NAME_KEY = "last-name";
+  private static final String USER_NAME_KEY = "user-name";
   private static final String FUN_FACT_KEY = "user-fun-fact";
   private static final String NO_NAME = "Anonymous";
   private Map<String, String> oldFacts = new HashMap<String, String>();
@@ -50,8 +49,7 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
-    String userFirstName = getParameter(request, /*content=*/ FIRST_NAME_KEY, /*defaultValue=*/ "");
-    String userLastName = getParameter(request, /*content=*/ LAST_NAME_KEY, /*defaultValue=*/ "");
+    String userName = getParameter(request, /*content=*/ USER_NAME_KEY, /*defaultValue=*/ "");
     String userFunFact = getParameter(request, /*content=*/ FUN_FACT_KEY, /*defaultValue=*/ "");
 
     // No need to change oldFacts if there is no new fact
@@ -61,7 +59,7 @@ public class DataServlet extends HttpServlet {
     }
 
     // Define key and value pair to add to oldFacts
-    String factKey = getFactKey(userFirstName, userLastName);
+    String factKey = getFactKey(userName);
     String factValue = getFactValue(oldFacts, userFunFact, factKey);
     
     // Store user's input to access later
@@ -72,19 +70,13 @@ public class DataServlet extends HttpServlet {
     response.getWriter().println(factKey + ": " + factValue);
   }
 
-  private static String getFactKey(String firstName, String lastName) {
+  private static String getFactKey(String userName) {
     String factKey;
-    if (firstName.isEmpty() && lastName.isEmpty()) {
+    if (userName.isEmpty()) {
       factKey = NO_NAME;
     }
-    else if (firstName.isEmpty()) {
-      factKey = lastName;
-    }
-    else if (lastName.isEmpty()) {
-      factKey = firstName;
-    }
     else {
-      factKey = firstName + " " + lastName;
+      factKey = userName;
     }
     return factKey;
   }
@@ -92,7 +84,7 @@ public class DataServlet extends HttpServlet {
   private static String getFactValue(Map<String, String> oldFacts, String funFact, String factKey) {
     String factValue;
     if (oldFacts.containsKey(factKey)) {
-      factValue = oldFacts.get(factKey) + ", " + funFact;
+      factValue = oldFacts.get(factKey) + "; " + funFact;
     }
     else {
       factValue = funFact;

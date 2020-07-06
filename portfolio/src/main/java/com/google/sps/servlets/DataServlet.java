@@ -15,6 +15,7 @@
 package com.google.sps.servlets;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Streams;
 import com.google.appengine.api.datastore.DatastoreService;
@@ -51,7 +52,7 @@ public class DataServlet extends HttpServlet {
     // Add previously inputted fun facts to userFacts
     ImmutableList<String> userFacts =
         Streams.stream(results.asIterable())
-        .map(entity -> entity.getProperty(PROPERTY_NAME).toString() + ": " + entity.getProperty(PROPERTY_FACT).toString())
+        .map(DataServlet::getContent)
         .collect(toImmutableList());
 
     String userFactsJson = convertToJsonUsingGson(userFacts);
@@ -59,6 +60,10 @@ public class DataServlet extends HttpServlet {
     // Send the JSON as the response
     response.setContentType("application/json;");
     response.getWriter().println(userFactsJson);
+  }
+
+  private static String getContent(Entity entity) {
+    return entity.getProperty(PROPERTY_NAME).toString() + ": " + entity.getProperty(PROPERTY_FACT).toString();
   }
 
   private static String convertToJsonUsingGson(ImmutableList<String> oldFacts) {
@@ -82,7 +87,7 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     // Define key to add to datastore
-    String factKey = getFactKey(userName);
+    String factKey = userName.isEmpty() ? NO_NAME : userName;
 
     Entity funFactEntity = new Entity(ENTITY_NAME);
     funFactEntity.setProperty(PROPERTY_NAME, factKey);
@@ -90,17 +95,6 @@ public class DataServlet extends HttpServlet {
     datastore.put(funFactEntity);
 
     response.sendRedirect("/index.html");
-  }
-
-  private static String getFactKey(String userName) {
-    String factKey;
-    if (userName.isEmpty()) {
-      factKey = NO_NAME;
-    }
-    else {
-      factKey = userName;
-    }
-    return factKey;
   }
 
   private static String getParameter(HttpServletRequest request, String content, String defaultValue) {

@@ -84,7 +84,7 @@ public class DataServlet extends HttpServlet {
 
     // No need to add to datastore if there is no new fact
     if (userFunFact.isEmpty()) {
-      response.sendRedirect("/index.html");
+      response.sendRedirect("/about-you.html");
       return;
     }
 
@@ -98,7 +98,7 @@ public class DataServlet extends HttpServlet {
     funFactEntity.setProperty(PROPERTY_FACT, userFunFact);
     datastore.put(funFactEntity);
 
-    response.sendRedirect("/index.html");
+    response.sendRedirect("/about-you.html");
   }
 
   private static String getParameter(HttpServletRequest request, String content, String defaultValue) {

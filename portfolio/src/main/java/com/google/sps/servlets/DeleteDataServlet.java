@@ -49,6 +49,6 @@ public class DeleteDataServlet extends HttpServlet {
         .collect(toImmutableList());
 
     datastore.delete(userFacts);
-    response.sendRedirect("/index.html");
+    response.sendRedirect("/about-you.html");
   }
 }

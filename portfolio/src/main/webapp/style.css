@@ -16,14 +16,14 @@ hr.bar {
   color: #000000;
   text-align: center;
   padding: 5px 0px 15px;
-  width: 25%;
+  width: 20%;
 }
 
 .top-navigation a:hover {
   color: #f2f2f2;
 }
 
-#content {
+#content, #servlet-content {
   margin-left: auto;
   margin-right: auto;
   text-align: center;

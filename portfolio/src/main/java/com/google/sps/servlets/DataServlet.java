@@ -14,10 +14,9 @@
 
 package com.google.sps.servlets;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
+import static com.google.common.collect.ImmutableList.toImmutableList;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Streams;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -50,20 +49,11 @@ public class DataServlet extends HttpServlet {
     PreparedQuery results = datastore.prepare(query);
 
     // Add previously inputted fun facts to userFacts
-    Map<String, String> userFacts = new HashMap<String, String>();
-    for (Entity entity : results.asIterable()) {
-      String name = (String) entity.getProperty(PROPERTY_NAME);
-      String fact = (String) entity.getProperty(PROPERTY_FACT);
+    ImmutableList<String> userFacts =
+        Streams.stream(results.asIterable())
+        .map(entity -> entity.getProperty(PROPERTY_NAME).toString() + ": " + entity.getProperty(PROPERTY_FACT).toString())
+        .collect(toImmutableList());
 
-      if (userFacts.containsKey(name)) {
-        String newValue = userFacts.get(name) + "; " + fact;
-        userFacts.remove(name);
-        userFacts.put(name, newValue);
-      }
-      else {
-        userFacts.put(name, fact);
-      }
-    }
     String userFactsJson = convertToJsonUsingGson(userFacts);
 
     // Send the JSON as the response
@@ -71,7 +61,7 @@ public class DataServlet extends HttpServlet {
     response.getWriter().println(userFactsJson);
   }
 
-  private static String convertToJsonUsingGson(Map<String, String> oldFacts) {
+  private static String convertToJsonUsingGson(ImmutableList<String> oldFacts) {
     Gson gson = new Gson();
     String json = gson.toJson(oldFacts);
     return json;
@@ -83,7 +73,7 @@ public class DataServlet extends HttpServlet {
     String userName = getParameter(request, /*content=*/ USER_NAME_KEY, /*defaultValue=*/ "");
     String userFunFact = getParameter(request, /*content=*/ FUN_FACT_KEY, /*defaultValue=*/ "");
 
-    // No need to change oldFacts if there is no new fact
+    // No need to add to datastore if there is no new fact
     if (userFunFact.isEmpty()) {
       response.sendRedirect("/index.html");
       return;

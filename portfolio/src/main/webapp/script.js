@@ -104,7 +104,7 @@ function getUserFacts() {
     factsListElement.innerHTML = '';
     for(const key in oldFacts) {
       if (oldFacts.hasOwnProperty(key)) {
-        factsListElement.appendChild(createListElement(key + ': ' + oldFacts[key]));
+        factsListElement.appendChild(createListElement(oldFacts[key]));
       }
     }
   });

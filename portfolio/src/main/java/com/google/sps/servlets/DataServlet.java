@@ -13,11 +13,12 @@
 // limitations under the License.
 
 package com.google.sps.servlets;
-
+ 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Streams;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -30,6 +31,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 
 // TODO: Only allow unique usernames - returning users should still be able to write additional comments with the same username
 /** Servlet that returns inputted fun facts from users and stores previously inputted facts. */
@@ -46,12 +48,14 @@ public class DataServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Query query = new Query(ENTITY_NAME).addSort(PROPERTY_FACT, SortDirection.DESCENDING);
 
+    int commentsLimit = Integer.parseInt(getParameter(request, "limit", "100"));
+
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
     // Add previously inputted fun facts to userFacts
     ImmutableList<String> userFacts =
-        Streams.stream(results.asIterable())
+        Streams.stream(results.asIterable(FetchOptions.Builder.withLimit(commentsLimit)))
         .map(DataServlet::getContent)
         .collect(toImmutableList());
 

@@ -1,17 +1,3 @@
-// Copyright 2019 Google LLC
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     https://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package com.google.sps.servlets;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
@@ -31,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 // TODO: Only allow unique usernames - returning users should still be able to write additional comments with the same username
 /** Servlet that returns inputted fun facts from users and stores previously inputted facts. */
 @WebServlet("/data")
@@ -46,14 +33,17 @@ public class DataServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Query query = new Query(ENTITY_NAME).addSort(PROPERTY_FACT, SortDirection.DESCENDING);
 
+    int commentsLimit = Integer.parseInt(getParameter(request, "limit", "100"));
+
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
     // Add previously inputted fun facts to userFacts
     ImmutableList<String> userFacts =
         Streams.stream(results.asIterable())
-        .map(DataServlet::getContent)
-        .collect(toImmutableList());
+            .limit(commentsLimit)
+            .map(DataServlet::getContent)
+            .collect(toImmutableList());
 
     String userFactsJson = convertToJsonUsingGson(userFacts);
 
@@ -80,7 +70,7 @@ public class DataServlet extends HttpServlet {
 
     // No need to add to datastore if there is no new fact
     if (userFunFact.isEmpty()) {
-      response.sendRedirect("/index.html");
+      response.sendRedirect("/about-you.html");
       return;
     }
 
@@ -94,7 +84,7 @@ public class DataServlet extends HttpServlet {
     funFactEntity.setProperty(PROPERTY_FACT, userFunFact);
     datastore.put(funFactEntity);
 
-    response.sendRedirect("/index.html");
+    response.sendRedirect("/about-you.html");
   }
 
   private static String getParameter(HttpServletRequest request, String content, String defaultValue) {

@@ -100,10 +100,11 @@ function showSlides(index) {
 function getUserFacts() {
   fetch('/data').then(response => response.json()).then((oldFacts) => {  
     // Reference each element in oldFacts to create HTML content
+    const limit = parseInt(document.getElementById('limit').value);
     const factsListElement = document.getElementById('user-facts-container');
     factsListElement.innerHTML = '';
     for(const key in oldFacts) {
-      if (oldFacts.hasOwnProperty(key)) {
+      if (oldFacts.hasOwnProperty(key) && key < limit) {
         factsListElement.appendChild(createListElement(oldFacts[key]));
       }
     }
@@ -115,4 +116,10 @@ function createListElement(text) {
   const liElement = document.createElement('li');
   liElement.innerText = text;
   return liElement;
+}
+
+/** Delete all comments if user selects delete option */
+async function deleteComments() {
+  await fetch('/delete-data', {method: 'POST'});
+  getUserFacts();
 }

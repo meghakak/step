@@ -128,7 +128,7 @@ async function deleteComments() {
 function showOrHideForm() {
   fetch('/auth').then(response => response.text()).then((loginStatus) => {
     const authContent = document.getElementById('servlet-content');
-    if (loginStatus.includes("Logout")) {
+    if (loginStatus.includes('Logout')) {
       authContent.innerHTML += loginStatus;
       getUserFacts();
     }

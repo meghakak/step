@@ -27,6 +27,7 @@ public class DataServlet extends HttpServlet {
   private static final String ENTITY_NAME = "FunFact";
   private static final String PROPERTY_NAME = "name";
   private static final String PROPERTY_FACT = "fact";
+  private static final String NO_NAME = "Anonymous";
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -77,8 +78,11 @@ public class DataServlet extends HttpServlet {
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
+    // Define key to add to datastore
+    String factKey = username.isEmpty() ? NO_NAME : username;
+
     Entity funFactEntity = new Entity(ENTITY_NAME);
-    funFactEntity.setProperty(PROPERTY_NAME, username);
+    funFactEntity.setProperty(PROPERTY_NAME, factKey);
     funFactEntity.setProperty(PROPERTY_FACT, userFunFact);
     datastore.put(funFactEntity);
 

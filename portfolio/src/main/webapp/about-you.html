@@ -10,8 +10,8 @@
     <div id="top-navigation"></div>
   </head>
   <body onload="showOrHideForm()">
+    <h1 class="heading">Fun Facts About <em>You</em></h1>
     <div id="servlet-content">
-      <h1>Fun Facts About <em>You</em></h1>
       <p>It's your turn! As you get to know me through this portfolio, I would love to get to know you as well! 
         Feel free to comment a fun fact about yourself below</p>
       <form action="/data" method="POST">
@@ -33,6 +33,26 @@
         <button action="/delete-data" name="delete" id="delete" onclick="deleteComments()">Delete all comments</button>
       </form>
       <div id="user-facts-container"></div>
+    </div>
+    <hr class="separator">
+    <h1 class="heading">Musical Favorites</h1>
+    <div class="chart-intro chart-content">
+      <p>As I mentioned in the Hobbies page, I love listening and sharing new music and I would love to provide you 
+        with some tunes that I think you would enjoy based on your favorite genre of music. After selecting your favorite one 
+        below, I will show you 10 songs from that genre that I enjoy and I hope you will as well! Check out the chart on the right to 
+        see if your favorite genre is the most popular🎵🎧</p>
+      <form>
+        <label for="fav-gender">Which genre is the closest to your favorite?</label><br>
+        <input type="radio" name="fav-gender" value="pop"> Pop<br>
+        <input type="radio" name="fav-gender" value="rock"> Rock<br>
+        <input type="radio" name="fav-gender" value="rap"> Rap<br>
+        <input type="radio" name="fav-gender" value="rnb"> R&amp;B<br>
+        <input type="radio" name="fav-gender" value="edm"> EDM<br>
+        <input type="submit">
+      </form>
+    </div>
+    <div class="chart-content">
+      <p>Here is where the chart will go.</p>
     </div>
   </body>
 </html>

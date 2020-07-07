@@ -18,9 +18,8 @@ public class AuthServlet extends HttpServlet {
 
     UserService userService = UserServiceFactory.getUserService();
     if (userService.isUserLoggedIn()) {
-      String userEmail = userService.getCurrentUser().getEmail();
       String logoutUrl = userService.createLogoutURL(redirectURL);
-      response.getWriter().println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>");
+      response.getWriter().println("<p>Logout <a href=\"" + logoutUrl + "\">here</a></p>");
     } 
     else {
       String loginUrl = userService.createLoginURL(redirectURL);

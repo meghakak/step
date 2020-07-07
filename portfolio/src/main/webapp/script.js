@@ -124,16 +124,16 @@ async function deleteComments() {
   getUserFacts();
 }
 
-/** Fetch login status and show/hide form accordingly */
+/** Fetch login status and show or hide form accordingly */
 function showOrHideForm() {
   fetch('/auth').then(response => response.text()).then((loginStatus) => {
-    const divToShowOrHide = document.getElementById('servlet-content');
+    const authContent = document.getElementById('servlet-content');
     if (loginStatus.includes("Logout")) {
-      divToShowOrHide.innerHTML += loginStatus;
+      authContent.innerHTML += loginStatus;
       getUserFacts();
     }
     else {
-      divToShowOrHide.innerHTML = loginStatus;
+      authContent.innerHTML = loginStatus;
     }
   })
 }

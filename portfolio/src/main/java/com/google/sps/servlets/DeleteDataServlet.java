@@ -31,8 +31,8 @@ public class DeleteDataServlet extends HttpServlet {
     // Delete all inputted comments in datastore
     ImmutableList<Key> userFacts =
         Streams.stream(results.asIterable())
-        .map(Entity::getKey)
-        .collect(toImmutableList());
+            .map(Entity::getKey)
+            .collect(toImmutableList());
 
     datastore.delete(userFacts);
     response.sendRedirect("/about-you.html");

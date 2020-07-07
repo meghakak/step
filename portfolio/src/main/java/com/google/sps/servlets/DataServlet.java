@@ -41,9 +41,9 @@ public class DataServlet extends HttpServlet {
     // Add previously inputted fun facts to userFacts
     ImmutableList<String> userFacts =
         Streams.stream(results.asIterable())
-        .limit(commentsLimit)
-        .map(DataServlet::getContent)
-        .collect(toImmutableList());
+            .limit(commentsLimit)
+            .map(DataServlet::getContent)
+            .collect(toImmutableList());
 
     String userFactsJson = convertToJsonUsingGson(userFacts);
 

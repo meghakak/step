@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-// TODO: Only allow unique usernames - returning users should still be able to write additional comments with the same username
 /** Servlet that returns inputted fun facts from users and stores previously inputted facts. */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {

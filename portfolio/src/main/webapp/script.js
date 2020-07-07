@@ -123,3 +123,17 @@ async function deleteComments() {
   await fetch('/delete-data', {method: 'POST'});
   getUserFacts();
 }
+
+/** Fetch login status and show/hide form accordingly */
+function showOrHideForm() {
+  fetch('/auth').then(response => response.text()).then((loginStatus) => {
+    const divToShowOrHide = document.getElementById('servlet-content');
+    if (loginStatus.includes("Logout")) {
+      divToShowOrHide.innerHTML += loginStatus;
+      getUserFacts();
+    }
+    else {
+      divToShowOrHide.innerHTML = loginStatus;
+    }
+  })
+}

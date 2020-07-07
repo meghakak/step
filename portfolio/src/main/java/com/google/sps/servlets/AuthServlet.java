@@ -14,21 +14,17 @@ public class AuthServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html");
+    String redirectURL = "/about-you.html";
 
     UserService userService = UserServiceFactory.getUserService();
     if (userService.isUserLoggedIn()) {
       String userEmail = userService.getCurrentUser().getEmail();
-      String urlToRedirectToAfterUserLogsOut = "/auth";
-      String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
-
-      response.getWriter().println("<p>Hello " + userEmail + "!</p>");
+      String logoutUrl = userService.createLogoutURL(redirectURL);
       response.getWriter().println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>");
-    } else {
-      String urlToRedirectToAfterUserLogsIn = "/auth";
-      String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
-
-      response.getWriter().println("<p>Login below to add and view fun facts!</p>");
-      response.getWriter().println("<p>Login <a href=\"" + loginUrl + "\">here</a>.</p>");
+    } 
+    else {
+      String loginUrl = userService.createLoginURL(redirectURL);
+      response.getWriter().println("<p>Login <a href=\"" + loginUrl + "\">here</a> to add and view fun facts!</p>");
     }
   }
 }

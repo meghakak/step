@@ -13,7 +13,7 @@
 // limitations under the License.
 
 package com.google.sps.servlets;
- 
+
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.ImmutableList;

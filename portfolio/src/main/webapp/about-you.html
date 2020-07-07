@@ -6,24 +6,22 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="script.js"></script>
-  </head>
-  <body onload="getUserFacts()">
     <h1 class="heading">About You</h1>
     <div id="top-navigation"></div>
+  </head>
+  <body onload="showOrHideForm()">
     <div id="servlet-content">
       <h1>Fun Facts About <em>You</em></h1>
       <p>It's your turn! As you get to know me through this portfolio, I would love to get to know you as well! 
-        Feel free to comment a fun fact about yourself below:</p>
+        Feel free to comment a fun fact about yourself below</p>
       <form action="/data" method="POST">
-        <label for="user-name">Enter / Create a Username:</label><br>
-        <input type="text" name="user-name"><br>
         <label for="user-fun-fact">Your Fun Fact:</label><br>
         <input type="text" name="user-fun-fact"><br>
         <input type="submit">
       </form>
       <p>Here are some of the fun facts others have left as well:</p>
       <form action="/data" method="GET">
-        <label for="limit">Select the max fun facts to display:</label>
+        <label for="limit">Max # of fun facts to display:</label>
         <select name="limit" id="limit" onchange="getUserFacts()">
           <option value="5">5</option>
           <option value="10">10</option>
@@ -32,7 +30,7 @@
         </select>
       </form>
       <form action="/delete-data" method="POST">
-        <button action="/delete-data" name="delete" id="delete" onclick="deleteComments()">OR delete all comments</button>
+        <button action="/delete-data" name="delete" id="delete" onclick="deleteComments()">Delete all comments</button>
       </form>
       <div id="user-facts-container"></div>
     </div>

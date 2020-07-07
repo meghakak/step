@@ -11,6 +11,8 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,16 +20,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-// TODO: Only allow unique usernames - returning users should still be able to write additional comments with the same username
 /** Servlet that returns inputted fun facts from users and stores previously inputted facts. */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  private static final String USER_NAME_KEY = "user-name";
   private static final String FUN_FACT_KEY = "user-fun-fact";
-  private static final String NO_NAME = "Anonymous";
   private static final String ENTITY_NAME = "FunFact";
   private static final String PROPERTY_NAME = "name";
   private static final String PROPERTY_FACT = "fact";
+  private static final String NO_NAME = "Anonymous";
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -64,8 +64,10 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Get the input from the form.
-    String userName = getParameter(request, /*content=*/ USER_NAME_KEY, /*defaultValue=*/ "");
+    // Get input from the webpage
+    UserService userService = UserServiceFactory.getUserService();
+    String userEmail = userService.getCurrentUser().getEmail();
+    String username = userEmail.substring(0, userEmail.indexOf("@"));
     String userFunFact = getParameter(request, /*content=*/ FUN_FACT_KEY, /*defaultValue=*/ "");
 
     // No need to add to datastore if there is no new fact
@@ -77,7 +79,7 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     // Define key to add to datastore
-    String factKey = userName.isEmpty() ? NO_NAME : userName;
+    String factKey = username.isEmpty() ? NO_NAME : username;
 
     Entity funFactEntity = new Entity(ENTITY_NAME);
     funFactEntity.setProperty(PROPERTY_NAME, factKey);

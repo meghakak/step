@@ -5,13 +5,14 @@
     <title>My Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="script.js"></script>
     <h1 class="heading">About You</h1>
     <div id="top-navigation"></div>
   </head>
   <body onload="showOrHideForm()">
+    <h1 class="heading">Fun Facts About <em>You</em></h1>
     <div id="servlet-content">
-      <h1>Fun Facts About <em>You</em></h1>
       <p>It's your turn! As you get to know me through this portfolio, I would love to get to know you as well! 
         Feel free to comment a fun fact about yourself below</p>
       <form action="/data" method="POST">
@@ -33,6 +34,25 @@
         <button action="/delete-data" name="delete" id="delete" onclick="deleteComments()">Delete all comments</button>
       </form>
       <div id="user-facts-container"></div>
+    </div>
+    <hr class="separator">
+    <h1 class="heading">Musical Favorites</h1>
+    <div class="chart-intro chart-content">
+      <p>As I mentioned in the Hobbies page, I love listening and sharing new music and I would love to provide you 
+        with some tunes that I think you would enjoy based on your favorite genre of music. After selecting your favorite one 
+        below, I will show you 5 songs from that genre that I enjoy and I hope you will as well! Check out the chart on the right to 
+        see if your favorite genre is the most popular🎵🎧</p>
+      <form action="/music-data" method="POST">
+        <label for="fav-genre">Which genre is the closest to your favorite?</label><br>
+        <input type="radio" name="fav-genre" value="Pop">Pop<br>
+        <input type="radio" name="fav-genre" value="Rock">Rock<br>
+        <input type="radio" name="fav-genre" value="Rap">Rap<br>
+        <input type="radio" name="fav-genre" value="R&amp;B">R&amp;B<br>
+        <input type="radio" name="fav-genre" value="EDM">EDM<br>
+        <input type="submit">
+      </form>
+    </div>
+    <div id="chart" class="chart-content">
     </div>
   </body>
 </html>

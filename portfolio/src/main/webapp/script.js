@@ -29,7 +29,7 @@ function addRandomFunFact() {
   const funFact = funFacts[Math.floor(Math.random() * funFacts.length)];
 
   // Add it to the page.
-  const funFactContainer = document.getElementById('fun-fact-container');
+  var funFactContainer = document.getElementById('fun-fact-container');
   funFactContainer.innerText = funFact;
 }
 
@@ -45,7 +45,7 @@ function showAccordion() {
   var accordion = document.getElementsByClassName('accordion');
 
   // Open chosen panel(s) and hide all other panels
-  for (var accordionIndex = 0; accordionIndex < accordion.length; accordionIndex++) {
+  for (const accordionIndex = 0; accordionIndex < accordion.length; accordionIndex++) {
     accordion[accordionIndex].addEventListener('click', function() {
       this.classList.toggle('panel-active');
       var panel = this.nextElementSibling;
@@ -58,7 +58,7 @@ function showAccordion() {
 
 // jQuery - Initialize slideshow
 if($('body').is('.gallery')) {
-  var slideIndex = 1;
+  const slideIndex = 1;
   showSlides(slideIndex);
 }
 
@@ -86,10 +86,10 @@ function showSlides(index) {
   }
 
   // Hide all slides except the current one
-  for (var slideListIndex = 0; slideListIndex < slides.length; slideListIndex++) {
+  for (const slideListIndex = 0; slideListIndex < slides.length; slideListIndex++) {
     slides[slideListIndex].style.display = 'none';
   }
-  for (var dotIndex = 0; dotIndex < dots.length; dotIndex++) {
+  for (const dotIndex = 0; dotIndex < dots.length; dotIndex++) {
     dots[dotIndex].className = dots[dotIndex].className.replace(' dot-active','');
   }
   slides[slideIndex-1].style.display = 'block';
@@ -101,7 +101,7 @@ function getUserFacts() {
   fetch('/data').then(response => response.json()).then((oldFacts) => {  
     // Reference each element in oldFacts to create HTML content
     const limit = parseInt(document.getElementById('limit').value);
-    const factsListElement = document.getElementById('user-facts-container');
+    var factsListElement = document.getElementById('user-facts-container');
     factsListElement.innerHTML = '';
     for(const key in oldFacts) {
       if (oldFacts.hasOwnProperty(key) && key < limit) {
@@ -113,7 +113,7 @@ function getUserFacts() {
 
 /** Create an <li> element containing text. */
 function createListElement(text) {
-  const liElement = document.createElement('li');
+  var liElement = document.createElement('li');
   liElement.innerText = text;
   return liElement;
 }
@@ -127,7 +127,7 @@ async function deleteComments() {
 /** Fetch login status and show or hide form accordingly */
 function showOrHideForm() {
   fetch('/auth').then(response => response.text()).then((loginStatus) => {
-    const authContent = document.getElementById('servlet-content');
+    var authContent = document.getElementById('servlet-content');
     if (loginStatus.includes('Logout')) {
       authContent.innerHTML += loginStatus;
       getUserFacts();
@@ -136,4 +136,30 @@ function showOrHideForm() {
       authContent.innerHTML = loginStatus;
     }
   })
+}
+
+google.charts.load('current', {'packages': ['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+/** Fetches color data and uses it to create a chart. */
+function drawChart() {
+  fetch('/music-data').then(response => response.json())
+    .then((genreVotes) => {
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Genre');
+      data.addColumn('number', 'Votes');
+      Object.keys(genreVotes).forEach((genre) => {
+        data.addRow([genre, genreVotes[genre]]);
+      });
+
+      const options = {
+        'title': 'Favorite Genres of Music',
+        'width': 600,
+        'height': 500
+      };
+
+      var chart = new google.visualization.ColumnChart(
+          document.getElementById('chart'));
+      chart.draw(data, options);
+    });
 }

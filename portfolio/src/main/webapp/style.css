@@ -65,7 +65,7 @@ table {
   max-width: 50%;
 }
 
-hr.end-hobby {
+hr.separator {
   overflow: visible;
   padding: 0;
   border: none;
@@ -74,7 +74,7 @@ hr.end-hobby {
   text-align: center;
 }
 
-hr.end-hobby:after {
+hr.separator:after {
   content: '§';
   display: inline-block;
   position: relative;
@@ -198,11 +198,13 @@ hr.end-hobby:after {
   width: 100%;
 }
 
-.accordion-left {
+.accordion-left,
+.chart-intro {
   margin: 0% 2% 0% 1%;
 }
 
-.accordion-both {
+.accordion-both,
+.chart-content {
   width: 48%;
   float: left;
 }
@@ -230,4 +232,8 @@ hr.end-hobby:after {
 
 .panel-active:after {
   content: '\2796';
+}
+
+input[type='radio'] {
+  margin: 0 10px 0 10px;
 }

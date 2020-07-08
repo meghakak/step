@@ -137,3 +137,29 @@ function showOrHideForm() {
     }
   })
 }
+
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+/** Fetches color data and uses it to create a chart. */
+function drawChart() {
+  fetch('/music-data').then(response => response.json())
+  .then((genreVotes) => {
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'Genre');
+    data.addColumn('number', 'Votes');
+    Object.keys(genreVotes).forEach((genre) => {
+      data.addRow([genre, genreVotes[genre]]);
+    });
+
+    const options = {
+      'title': 'Favorite Genres of Music',
+      'width':600,
+      'height':500
+    };
+
+    const chart = new google.visualization.ColumnChart(
+        document.getElementById('chart'));
+    chart.draw(data, options);
+  });
+}

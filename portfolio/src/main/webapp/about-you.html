@@ -5,6 +5,7 @@
     <title>My Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="script.js"></script>
     <h1 class="heading">About You</h1>
     <div id="top-navigation"></div>
@@ -41,18 +42,17 @@
         with some tunes that I think you would enjoy based on your favorite genre of music. After selecting your favorite one 
         below, I will show you 10 songs from that genre that I enjoy and I hope you will as well! Check out the chart on the right to 
         see if your favorite genre is the most popular🎵🎧</p>
-      <form>
-        <label for="fav-gender">Which genre is the closest to your favorite?</label><br>
-        <input type="radio" name="fav-gender" value="pop"> Pop<br>
-        <input type="radio" name="fav-gender" value="rock"> Rock<br>
-        <input type="radio" name="fav-gender" value="rap"> Rap<br>
-        <input type="radio" name="fav-gender" value="rnb"> R&amp;B<br>
-        <input type="radio" name="fav-gender" value="edm"> EDM<br>
+      <form action="/music-data" method="POST">
+        <label for="fav-genre">Which genre is the closest to your favorite?</label><br>
+        <input type="radio" name="fav-genre" value="Pop"> Pop<br>
+        <input type="radio" name="fav-genre" value="Rock"> Rock<br>
+        <input type="radio" name="fav-genre" value="Rap"> Rap<br>
+        <input type="radio" name="fav-genre" value="R&amp;B"> R&amp;B<br>
+        <input type="radio" name="fav-genre" value="EDM"> EDM<br>
         <input type="submit">
       </form>
     </div>
-    <div class="chart-content">
-      <p>Here is where the chart will go.</p>
+    <div id="chart" class="chart-content">
     </div>
   </body>
 </html>

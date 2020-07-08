@@ -233,3 +233,7 @@ hr.separator:after {
 .panel-active:after {
   content: '\2796';
 }
+
+input[type='radio'] {
+  margin: 0 10px 0 10px;
+}

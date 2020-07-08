@@ -70,9 +70,7 @@ public class MusicDataServlet extends HttpServlet {
     Query query = new Query(ENTITY_NAME).setFilter(filter);
     PreparedQuery results = datastore.prepare(query);
 
-    ImmutableList<Entity> entities =
-        Streams.stream(results.asIterable())
-            .collect(toImmutableList());
+    ImmutableList<Entity> entities = ImmutableList.copyOf(results.asIterable());
     
     datastore.put(getGenreEntity(entities, genre));
     response.sendRedirect("/about-you.html");

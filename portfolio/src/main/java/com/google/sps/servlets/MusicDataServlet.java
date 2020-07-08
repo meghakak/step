@@ -1,14 +1,14 @@
 package com.google.sps.servlets;
 
-import static com.google.appengine.api.urlfetch.FetchOptions.Builder;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.List;
 import com.google.common.collect.Streams;
-import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -65,9 +65,20 @@ public class MusicDataServlet extends HttpServlet {
     String genre = request.getParameter("fav-genre");
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query q = new Query(ENTITY_NAME);
-    q.setFilter(new FilterPredicate(PROPERTY_GENRE, FilterOperator.EQUAL, genre));
-    List<Entity> entities = datastore.prepare(q).asList(FetchOptions.Builder.withDefaults());
+    // Get the entity that includes the selected genre
+    FilterPredicate filter = new FilterPredicate(PROPERTY_GENRE, FilterOperator.EQUAL, genre);
+    Query query = new Query(ENTITY_NAME).setFilter(filter);
+    PreparedQuery results = datastore.prepare(query);
+
+    ImmutableList<Entity> entities =
+        Streams.stream(results.asIterable())
+            .collect(toImmutableList());
+    
+    datastore.put(getGenreEntity(entities, genre));
+    response.sendRedirect("/about-you.html");
+  }
+
+  private static Entity getGenreEntity(ImmutableList<Entity> entities, String genre) {
     Entity genreEntity = new Entity(ENTITY_NAME);
     if (entities.isEmpty()) {
       genreEntity.setProperty(PROPERTY_GENRE, genre);
@@ -75,9 +86,9 @@ public class MusicDataServlet extends HttpServlet {
     }
     else {
       genreEntity = entities.get(0);
-      genreEntity.setProperty(PROPERTY_VOTES, Integer.parseInt(genreEntity.getProperty(PROPERTY_VOTES).toString())+1);
+      int numVotes = Integer.parseInt(genreEntity.getProperty(PROPERTY_VOTES).toString()) + 1;
+      genreEntity.setProperty(PROPERTY_VOTES, numVotes);
     }
-    datastore.put(genreEntity);
-    response.sendRedirect("/about-you.html");
+    return genreEntity;
   }
 }

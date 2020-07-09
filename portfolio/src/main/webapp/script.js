@@ -141,7 +141,7 @@ function showOrHideForm() {
 google.charts.load('current', {'packages': ['corechart']});
 google.charts.setOnLoadCallback(drawChart);
 
-/** Fetches color data and uses it to create a chart. */
+/** Fetch music data and use it to create a chart */
 function drawChart() {
   fetch('/music-data').then(response => response.json())
     .then((genreVotes) => {
@@ -162,4 +162,18 @@ function drawChart() {
           document.getElementById('chart'));
       chart.draw(data, options);
     });
+}
+
+/** Print song list according to which genre is selected */
+function getSongList(genre) {
+  const songs =
+      {'Rock': 'Last Hope - Paramore<br>Alone Together - Fall Out Boy<br>Babylon - ' +
+      '5 Seconds of Summer<br>Sk8ter Boi - Avril Lavigne<br>Tear in My Heart - Twenty One Pilots', 
+      'Pop': 'I am the Internal Vice President of Women in Information' +
+      ' and Computer Sciences at UCI 👩💻',
+      'R&B': 'I played trumpet in my high school marching band 🎺', 
+      'EDM': 'I prefer dogs over cats, but both are equally lovable and adorable! 🐶🐱',
+      'Rap': 'More content'};
+  var songsContent = document.getElementById('music-container');
+  songsContent.innerHTML = songs[genre];
 }

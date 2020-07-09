@@ -73,6 +73,7 @@ public class MusicDataServlet extends HttpServlet {
     ImmutableList<Entity> entities = ImmutableList.copyOf(results.asIterable());
     
     datastore.put(getGenreEntity(entities, genre));
+
     response.sendRedirect("/about-you.html");
   }
 

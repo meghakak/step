@@ -169,11 +169,15 @@ function getSongList(genre) {
   const songs =
       {'Rock': 'Last Hope - Paramore<br>Alone Together - Fall Out Boy<br>Babylon - ' +
       '5 Seconds of Summer<br>Sk8ter Boi - Avril Lavigne<br>Tear in My Heart - Twenty One Pilots', 
-      'Pop': 'I am the Internal Vice President of Women in Information' +
-      ' and Computer Sciences at UCI 👩💻',
-      'R&B': 'I played trumpet in my high school marching band 🎺', 
-      'EDM': 'I prefer dogs over cats, but both are equally lovable and adorable! 🐶🐱',
-      'Rap': 'More content'};
+      'Pop': 'Temporary Heart - PRETTYMUCH<br>In Your Eyes - The Weeknd<br>This Is What It Takes - ' +
+      'Shawn Mendes<br>Real Friends - Camila Cabello ft. Swae Lee<br>2002 - Anne-Marie',
+      'R&B': 'Everything - Ella Mai ft. John Legend<br>U - H.E.R.<br>What You Did - ' + 
+      'Mahalia ft. Ella Mai<br>Let Me Love You - Mario<br>Summertime Magic - Childish Gambino', 
+      'EDM': 'Good Things Fall Apart - ILLENIUM ft. Jon Bellion<br>More Than You Know - Axwell & Ingrosso' +
+      '<br>Middle - DJ Snake ft. Bipolar Sunsine<br>Call On Me - Starley ft. Ryan Riback<br>' + 
+      'Paris - The Chainsmokers',
+      'Rap': 'A Tale of 2 Citiez - J. Cole<br>From Time - Drake ft. Jhene Aiko<br>Gold - BROCKHAMPTON<br>' + 
+      'From Florida With Love - Drake<br>Pretty Little Fears - 6LACK ft. J. Cole'};
   var songsContent = document.getElementById('music-container');
   songsContent.innerHTML = songs[genre];
 }

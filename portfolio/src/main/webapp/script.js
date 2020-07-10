@@ -141,7 +141,7 @@ function showOrHideForm() {
 google.charts.load('current', {'packages': ['corechart']});
 google.charts.setOnLoadCallback(drawChart);
 
-/** Fetches color data and uses it to create a chart. */
+/** Fetch music data and use it to create a chart */
 function drawChart() {
   fetch('/music-data').then(response => response.json())
     .then((genreVotes) => {
@@ -162,4 +162,22 @@ function drawChart() {
           document.getElementById('chart'));
       chart.draw(data, options);
     });
+}
+
+/** Print song list according to which genre is selected */
+function getSongList(genre) {
+  const songs =
+      {'Rock': 'Last Hope - Paramore<br>Alone Together - Fall Out Boy<br>Babylon - ' +
+      '5 Seconds of Summer<br>Sk8ter Boi - Avril Lavigne<br>Tear in My Heart - Twenty One Pilots', 
+      'Pop': 'Temporary Heart - PRETTYMUCH<br>In Your Eyes - The Weeknd<br>This Is What It Takes - ' +
+      'Shawn Mendes<br>Real Friends - Camila Cabello ft. Swae Lee<br>2002 - Anne-Marie',
+      'R&B': 'Everything - Ella Mai ft. John Legend<br>U - H.E.R.<br>What You Did - ' + 
+      'Mahalia ft. Ella Mai<br>Let Me Love You - Mario<br>Summertime Magic - Childish Gambino', 
+      'EDM': 'Good Things Fall Apart - ILLENIUM ft. Jon Bellion<br>More Than You Know - Axwell & Ingrosso' +
+      '<br>Middle - DJ Snake ft. Bipolar Sunsine<br>Call On Me - Starley ft. Ryan Riback<br>' + 
+      'Paris - The Chainsmokers',
+      'Rap': 'A Tale of 2 Citiez - J. Cole<br>From Time - Drake ft. Jhene Aiko<br>Gold - BROCKHAMPTON<br>' + 
+      'From Florida With Love - Drake<br>Pretty Little Fears - 6LACK ft. J. Cole'};
+  var songsContent = document.getElementById('music-container');
+  songsContent.innerHTML = songs[genre];
 }

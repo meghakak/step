@@ -32,22 +32,18 @@ public final class GreeterTest {
   }
 
   @Test
-  public void testGreetingTrimsWhitespace() {
+  public void greet_trimsWhitespace() {
     Greeter greeter = new Greeter();
 
     String greeting = greeter.greet("   Ada   ");
-
-    // Whitespace should be trimmed
-    Assert.assertEquals("Hello Ada", greeting);
+    Assert.assertEquals(greeting, "Hello Ada");
   }
 
   @Test
-  public void testGreetingIsOnlyAlphaNumeric() {
+  public void greet_onlyAlphaNumeric() {
     Greeter greeter = new Greeter();
 
     String greeting = greeter.greet("@#A$d*a!?");
-
-    // There should only be alpha numeric characters
-    Assert.assertEquals("Hello Ada", greeting);
+    Assert.assertEquals(greeting, "Hello Ada");
   }
 }

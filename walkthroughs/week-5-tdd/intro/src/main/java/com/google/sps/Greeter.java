@@ -18,10 +18,10 @@ package com.google.sps;
  * Utility class for creating greeting messages.
  */
 public class Greeter {
-  /**
-   * Returns a greeting for the given name.
-   */
+
+  /** Returns greeting with whitespace and non-alphanumeric characters removed */
   public String greet(String name) {
+    // Regex statement removes non-alphanumeric characters
     return "Hello " + name.trim().replaceAll("[^A-Za-z0-9 ]", "");
   }
 }

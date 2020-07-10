@@ -55,12 +55,12 @@ public final class FindMeetingQuery {
     while (indexOfTimesUnavailable < timesUnavailable.size()) {
       TimeRange currentTimeRange = timesUnavailable.get(indexOfTimesUnavailable);
       int timeDiff = currentTimeRange.start() - nextAvailableStart;
-      if (timeDiff >= 0 && timeDiff >= currentTimeRange.duration()) {
-        boolean inclusive = currentTimeRange.end() < TimeRange.END_OF_DAY ? true : false;
+      if (timeDiff >= 0 && timeDiff >= request.getDuration()) {
         timesAvailable.add(TimeRange.fromStartEnd(nextAvailableStart, currentTimeRange.start(), false));
-        
       }
-      nextAvailableStart = currentTimeRange.end();
+      if(currentTimeRange.end() > nextAvailableStart) {
+        nextAvailableStart = currentTimeRange.end();
+      }
       indexOfTimesUnavailable += 1;
     }
  
@@ -68,7 +68,6 @@ public final class FindMeetingQuery {
       timesAvailable.add(TimeRange.fromStartEnd(nextAvailableStart, TimeRange.END_OF_DAY, true));
     }
  
-    System.out.println("available: " + timesAvailable);
     return timesAvailable;
   }
 }

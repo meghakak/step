@@ -31,7 +31,7 @@ public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
      
     // Cannot support events longer than 24 hours (1440 minutes)
-    if((request.getDuration()) > MINUTES_IN_A_DAY) {
+    if(request.getDuration() > MINUTES_IN_A_DAY) {
       return ImmutableList.of();
     }
  
@@ -52,20 +52,20 @@ public final class FindMeetingQuery {
     // TODO: Change structure to not update a class variable in the stream
     // Find all available time ranges for the requested meeting based on the attendees' unavailable times 
     List<TimeRange> availableTimes = 
-        Streams.stream(unavailableTimes)
+        unavailableTimes.stream()
             .map(currentUnavailableTime -> {
 
                 // Find the next available time range given an unavailable time range
                 TimeRange timeRangeAvailable = findAvailableTimeRange(currentUnavailableTime, nextAvailableStart, request);
 
-                // Store the next available start time for the next available time range
+                // Store the next available start time for the next available time range if needed
                 if(currentUnavailableTime.end() > nextAvailableStart) {
                   nextAvailableStart = currentUnavailableTime.end();
                 }
                 
                 return timeRangeAvailable;
             })
-            .filter(currentUnavailableTime -> currentUnavailableTime!=null)
+            .filter(currentUnavailableTime -> currentUnavailableTime != null)
             .collect(Collectors.toList());
 
     // Add time leftover as the final available time range

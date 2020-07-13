@@ -26,14 +26,16 @@ import java.util.Collections;
 import java.util.ArrayList;
  
 public final class FindMeetingQuery {
+  private static final int MINUTES_IN_A_DAY = 1440;
   private int nextAvailableStart = TimeRange.START_OF_DAY;
-
+  
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    Collection<TimeRange> availableTimes = new ArrayList<TimeRange>();
+    
+    // Collection<TimeRange> availableTimes
  
     // Cannot support events longer than 24 hours (1440 minutes)
-    if((request.getDuration()) > 1440) {
-      return availableTimes;
+    if((request.getDuration()) > MINUTES_IN_A_DAY) {
+      return ImmutableList.of();
     }
  
     ImmutableSet<String> requiredAttendees = ImmutableSet.copyOf(request.getAttendees());
@@ -47,16 +49,16 @@ public final class FindMeetingQuery {
  
     // No unavailable time ranges means the entire day is available
     if (unavailableTimes.isEmpty()) {
-      availableTimes.add(TimeRange.WHOLE_DAY);
+      ImmutableList<TimeRange> availableTimes = ImmutableList.of(TimeRange.WHOLE_DAY);
       return availableTimes;
     }
 
-    availableTimes = 
+    Collection<TimeRange> availableTimes = 
         Streams.stream(unavailableTimes)
             .map(currentUnavailableTime -> {
-                HashMap<TimeRange, Integer> content = findAvailableTimeRange(currentUnavailableTime, nextAvailableStart, request);
-                TimeRange timeAvailable = content.entrySet().iterator().next().getKey();
-                nextAvailableStart = content.get(timeAvailable);
+                StoreTimeRangeInfo content = findAvailableTimeRange(currentUnavailableTime, nextAvailableStart, request);
+                TimeRange timeAvailable = content.getTimeRange();
+                nextAvailableStart = content.getNextStart();
                 return timeAvailable;
             })
             .filter(currentUnavailableTime -> currentUnavailableTime!=null)
@@ -70,10 +72,8 @@ public final class FindMeetingQuery {
     return availableTimes;
   }
 
-  private static HashMap<TimeRange, Integer> findAvailableTimeRange(TimeRange currentUnavailableTime, int nextAvailableStart, MeetingRequest request) {
-    HashMap<TimeRange, Integer> content = new HashMap<TimeRange, Integer>();
+  private static StoreTimeRangeInfo findAvailableTimeRange(TimeRange currentUnavailableTime, int nextAvailableStart, MeetingRequest request) {
     TimeRange timeRangeAvailable = null;
-
     // Add time range only if it can fit the requsted duration
     int timeDifference = currentUnavailableTime.start() - nextAvailableStart;
     if (timeDifference >= request.getDuration()) {
@@ -83,7 +83,24 @@ public final class FindMeetingQuery {
     if(currentUnavailableTime.end() > nextAvailableStart) {
       nextAvailableStart = currentUnavailableTime.end();
     }
-    content.put(timeRangeAvailable, nextAvailableStart);
-    return content;
+    return new StoreTimeRangeInfo(timeRangeAvailable, nextAvailableStart);
+  }
+}
+
+class StoreTimeRangeInfo {
+  private final TimeRange timeRange;
+  private final int nextStart;
+
+  public StoreTimeRangeInfo(TimeRange timeRange, int nextStart) {
+    this.timeRange = timeRange;
+    this.nextStart = nextStart;
+  }
+
+  public TimeRange getTimeRange() {
+    return timeRange;
+  }
+
+  public int getNextStart() {
+    return nextStart;
   }
 }

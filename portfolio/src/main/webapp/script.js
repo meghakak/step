@@ -58,7 +58,7 @@ function showAccordion() {
 
 // jQuery - Initialize slideshow
 if($('body').is('.gallery')) {
-  const slideIndex = 1;
+  var slideIndex = 1;
   showSlides(slideIndex);
 }
 
@@ -86,10 +86,10 @@ function showSlides(index) {
   }
 
   // Hide all slides except the current one
-  for (const slideListIndex = 0; slideListIndex < slides.length; slideListIndex++) {
+  for (var slideListIndex = 0; slideListIndex < slides.length; slideListIndex++) {
     slides[slideListIndex].style.display = 'none';
   }
-  for (const dotIndex = 0; dotIndex < dots.length; dotIndex++) {
+  for (var dotIndex = 0; dotIndex < dots.length; dotIndex++) {
     dots[dotIndex].className = dots[dotIndex].className.replace(' dot-active','');
   }
   slides[slideIndex-1].style.display = 'block';

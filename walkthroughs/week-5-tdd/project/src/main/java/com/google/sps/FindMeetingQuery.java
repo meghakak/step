@@ -20,19 +20,16 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
 import java.util.stream.Collectors;
-import java.util.HashMap;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.ArrayList;
+import java.util.List;
  
 public final class FindMeetingQuery {
   private static final int MINUTES_IN_A_DAY = 1440;
   private int nextAvailableStart = TimeRange.START_OF_DAY;
   
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    
-    // Collection<TimeRange> availableTimes
- 
+     
     // Cannot support events longer than 24 hours (1440 minutes)
     if((request.getDuration()) > MINUTES_IN_A_DAY) {
       return ImmutableList.of();
@@ -49,17 +46,24 @@ public final class FindMeetingQuery {
  
     // No unavailable time ranges means the entire day is available
     if (unavailableTimes.isEmpty()) {
-      ImmutableList<TimeRange> availableTimes = ImmutableList.of(TimeRange.WHOLE_DAY);
-      return availableTimes;
+      return ImmutableList.of(TimeRange.WHOLE_DAY);
     }
 
-    Collection<TimeRange> availableTimes = 
+    // TODO: Change structure to not update a class variable in the stream
+    // Find all available time ranges for the requested meeting based on the attendees' unavailable times 
+    List<TimeRange> availableTimes = 
         Streams.stream(unavailableTimes)
             .map(currentUnavailableTime -> {
-                StoreTimeRangeInfo content = findAvailableTimeRange(currentUnavailableTime, nextAvailableStart, request);
-                TimeRange timeAvailable = content.getTimeRange();
-                nextAvailableStart = content.getNextStart();
-                return timeAvailable;
+
+                // Find the next available time range given an unavailable time range
+                TimeRange timeRangeAvailable = findAvailableTimeRange(currentUnavailableTime, nextAvailableStart, request);
+
+                // Store the next available start time for the next available time range
+                if(currentUnavailableTime.end() > nextAvailableStart) {
+                  nextAvailableStart = currentUnavailableTime.end();
+                }
+                
+                return timeRangeAvailable;
             })
             .filter(currentUnavailableTime -> currentUnavailableTime!=null)
             .collect(Collectors.toList());
@@ -72,35 +76,18 @@ public final class FindMeetingQuery {
     return availableTimes;
   }
 
-  private static StoreTimeRangeInfo findAvailableTimeRange(TimeRange currentUnavailableTime, int nextAvailableStart, MeetingRequest request) {
-    TimeRange timeRangeAvailable = null;
+  private static TimeRange findAvailableTimeRange(TimeRange currentUnavailableTime, int nextAvailableStart, MeetingRequest request) {
+    TimeRange timeRangeAvailable;
+
     // Add time range only if it can fit the requsted duration
     int timeDifference = currentUnavailableTime.start() - nextAvailableStart;
     if (timeDifference >= request.getDuration()) {
       timeRangeAvailable = TimeRange.fromStartEnd(nextAvailableStart, currentUnavailableTime.start(), false);
     }
-
-    if(currentUnavailableTime.end() > nextAvailableStart) {
-      nextAvailableStart = currentUnavailableTime.end();
+    else {
+      timeRangeAvailable = null;
     }
-    return new StoreTimeRangeInfo(timeRangeAvailable, nextAvailableStart);
-  }
-}
 
-class StoreTimeRangeInfo {
-  private final TimeRange timeRange;
-  private final int nextStart;
-
-  public StoreTimeRangeInfo(TimeRange timeRange, int nextStart) {
-    this.timeRange = timeRange;
-    this.nextStart = nextStart;
-  }
-
-  public TimeRange getTimeRange() {
-    return timeRange;
-  }
-
-  public int getNextStart() {
-    return nextStart;
+    return timeRangeAvailable;
   }
 }

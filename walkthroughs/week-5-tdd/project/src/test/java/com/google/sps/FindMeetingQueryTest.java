@@ -57,17 +57,17 @@ public final class FindMeetingQueryTest {
   }
 
   @Test
-  public void optionsForNoAttendees() {
+  public void query_optionsForNoAttendees() {
     MeetingRequest request = new MeetingRequest(NO_ATTENDEES, DURATION_1_HOUR);
 
     Collection<TimeRange> actual = query.query(NO_EVENTS, request);
     Collection<TimeRange> expected = Arrays.asList(TimeRange.WHOLE_DAY);
 
-    Assert.assertEquals(expected, actual);
+    Assert.assertEquals(actual, expected);
   }
 
   @Test
-  public void noOptionsForTooLongOfARequest() {
+  public void query_noOptionsForTooLongOfARequest() {
     // The duration should be longer than a day. This means there should be no options.
     int duration = TimeRange.WHOLE_DAY.duration() + 1;
     MeetingRequest request = new MeetingRequest(Arrays.asList(PERSON_A), duration);
@@ -75,11 +75,11 @@ public final class FindMeetingQueryTest {
     Collection<TimeRange> actual = query.query(NO_EVENTS, request);
     Collection<TimeRange> expected = Arrays.asList();
 
-    Assert.assertEquals(expected, actual);
+    Assert.assertEquals(actual, expected);
   }
 
   @Test
-  public void eventSplitsRestriction() {
+  public void query_eventSplitsRestriction() {
     // The event should split the day into two options (before and after the event).
     Collection<Event> events = Arrays.asList(new Event("Event 1",
         TimeRange.fromStartDuration(TIME_0830AM, DURATION_30_MINUTES), Arrays.asList(PERSON_A)));
@@ -91,11 +91,11 @@ public final class FindMeetingQueryTest {
         Arrays.asList(TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TIME_0830AM, false),
             TimeRange.fromStartEnd(TIME_0900AM, TimeRange.END_OF_DAY, true));
 
-    Assert.assertEquals(expected, actual);
+    Assert.assertEquals(actual, expected);
   }
 
   @Test
-  public void everyAttendeeIsConsidered() {
+  public void query_everyAttendeeIsConsidered() {
     // Have each person have different events. We should see two options because each person has
     // split the restricted times.
     //
@@ -118,11 +118,11 @@ public final class FindMeetingQueryTest {
             TimeRange.fromStartEnd(TIME_0830AM, TIME_0900AM, false),
             TimeRange.fromStartEnd(TIME_0930AM, TimeRange.END_OF_DAY, true));
 
-    Assert.assertEquals(expected, actual);
+    Assert.assertEquals(actual, expected);
   }
 
   @Test
-  public void overlappingEvents() {
+  public void query_overlappingEvents() {
     // Have an event for each person, but have their events overlap. We should only see two options.
     //
     // Events  :       |--A--|
@@ -144,11 +144,11 @@ public final class FindMeetingQueryTest {
         Arrays.asList(TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TIME_0830AM, false),
             TimeRange.fromStartEnd(TIME_1000AM, TimeRange.END_OF_DAY, true));
 
-    Assert.assertEquals(expected, actual);
+    Assert.assertEquals(actual, expected);
   }
 
   @Test
-  public void nestedEvents() {
+  public void query_nestedEvents() {
     // Have an event for each person, but have one person's event fully contain another's event. We
     // should see two options.
     //
@@ -171,11 +171,11 @@ public final class FindMeetingQueryTest {
         Arrays.asList(TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TIME_0830AM, false),
             TimeRange.fromStartEnd(TIME_1000AM, TimeRange.END_OF_DAY, true));
 
-    Assert.assertEquals(expected, actual);
+    Assert.assertEquals(actual, expected);
   }
 
   @Test
-  public void doubleBookedPeople() {
+  public void query_doubleBookedPeople() {
     // Have one person, but have them registered to attend two events at the same time.
     //
     // Events  :       |----A----|
@@ -196,11 +196,11 @@ public final class FindMeetingQueryTest {
         Arrays.asList(TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TIME_0830AM, false),
             TimeRange.fromStartEnd(TIME_0930AM, TimeRange.END_OF_DAY, true));
 
-    Assert.assertEquals(expected, actual);
+    Assert.assertEquals(actual, expected);
   }
 
   @Test
-  public void justEnoughRoom() {
+  public void query_justEnoughRoom() {
     // Have one person, but make it so that there is just enough room at one point in the day to
     // have the meeting.
     //
@@ -220,11 +220,11 @@ public final class FindMeetingQueryTest {
     Collection<TimeRange> expected =
         Arrays.asList(TimeRange.fromStartDuration(TIME_0830AM, DURATION_30_MINUTES));
 
-    Assert.assertEquals(expected, actual);
+    Assert.assertEquals(actual, expected);
   }
 
   @Test
-  public void ignoresPeopleNotAttending() {
+  public void query_ignoresPeopleNotAttending() {
     // Add an event, but make the only attendee someone different from the person looking to book
     // a meeting. This event should not affect the booking.
     Collection<Event> events = Arrays.asList(new Event("Event 1",
@@ -234,22 +234,22 @@ public final class FindMeetingQueryTest {
     Collection<TimeRange> actual = query.query(events, request);
     Collection<TimeRange> expected = Arrays.asList(TimeRange.WHOLE_DAY);
 
-    Assert.assertEquals(expected, actual);
+    Assert.assertEquals(actual, expected);
   }
 
   @Test
-  public void noConflicts() {
+  public void query_noConflicts() {
     MeetingRequest request =
         new MeetingRequest(Arrays.asList(PERSON_A, PERSON_B), DURATION_30_MINUTES);
 
     Collection<TimeRange> actual = query.query(NO_EVENTS, request);
     Collection<TimeRange> expected = Arrays.asList(TimeRange.WHOLE_DAY);
 
-    Assert.assertEquals(expected, actual);
+    Assert.assertEquals(actual, expected);
   }
 
   @Test
-  public void notEnoughRoom() {
+  public void query_notEnoughRoom() {
     // Have one person, but make it so that there is not enough room at any point in the day to
     // have the meeting.
     //
@@ -268,7 +268,7 @@ public final class FindMeetingQueryTest {
     Collection<TimeRange> actual = query.query(events, request);
     Collection<TimeRange> expected = Arrays.asList();
 
-    Assert.assertEquals(expected, actual);
+    Assert.assertEquals(actual, expected);
   }
 }
 

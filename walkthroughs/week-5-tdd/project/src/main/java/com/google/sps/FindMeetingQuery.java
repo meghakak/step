@@ -48,27 +48,28 @@ public final class FindMeetingQuery {
     }
 
     // Find all available time ranges for the requested meeting based on the attendees' unavailable times 
-    ImmutableList<TimeRange> availableTimes = ImmutableList.copyOf(getAvailableTimeRanges(unavailableTimes, request));
+    ImmutableList<TimeRange> availableTimes = getAvailableTimeRanges(unavailableTimes, request);
     nextAvailableStart = TimeRange.START_OF_DAY; // Reset for finding optional available times
-    ImmutableList<TimeRange> optionalAvailableTimes = ImmutableList.copyOf(getAvailableTimeRanges(optionalUnavailableTimes, request));
+    ImmutableList<TimeRange> optionalAvailableTimes = getAvailableTimeRanges(optionalUnavailableTimes, request);
 
     
     if (availableTimes.contains(TimeRange.WHOLE_DAY)){ 
       // Return the optional time ranges only if there are no other time constraints
       return optionalAvailableTimes;
-    }
-    else if (optionalAvailableTimes.isEmpty() || optionalAvailableTimes.contains(TimeRange.WHOLE_DAY)) {
+    } else if (optionalAvailableTimes.isEmpty() || optionalAvailableTimes.contains(TimeRange.WHOLE_DAY)) {
       // No need to check for overlapping times if optional available times do not provide time constraints
       return availableTimes;
     }
 
-    // Find overlapping available time ranges and only return if there are any overlapping times, otherwise ignore optional attendees
-    ImmutableList<TimeRange> overlappingAvailableTimes = getOverlappingTimeRanges(availableTimes, optionalAvailableTimes, request);    
+    // Find and return overlapping available time ranges if there are any, otherwise ignore optional attendees
+    ImmutableList<TimeRange> overlappingAvailableTimes = 
+        getOverlappingTimeRanges(availableTimes, optionalAvailableTimes, request);    
 
     return overlappingAvailableTimes.isEmpty() ? availableTimes : overlappingAvailableTimes;
   }
 
-  public final List<TimeRange> getAvailableTimeRanges(ImmutableList<TimeRange> unavailableTimes, MeetingRequest request) {
+  public final ImmutableList<TimeRange> getAvailableTimeRanges(ImmutableList<TimeRange> unavailableTimes,
+      MeetingRequest request) {
     // Method must be public final to access nextAvailableStart and update it in the lambda function
     // TODO: Change structure to not update a class variable in the stream
     List<TimeRange> availableTimes = 
@@ -76,7 +77,8 @@ public final class FindMeetingQuery {
             .map(currentUnavailableTime -> {
 
                 // Find the next available time range given an unavailable time range
-                TimeRange timeRangeAvailable = findAvailableTimeRange(currentUnavailableTime, nextAvailableStart, request);
+                TimeRange timeRangeAvailable = 
+                    findAvailableTimeRange(currentUnavailableTime, nextAvailableStart, request);
 
                 // Store the next available start time for the next available time range if needed
                 if(currentUnavailableTime.end() > nextAvailableStart) {
@@ -92,10 +94,11 @@ public final class FindMeetingQuery {
     if(nextAvailableStart < TimeRange.END_OF_DAY) {
       availableTimes.add(TimeRange.fromStartEnd(nextAvailableStart, TimeRange.END_OF_DAY, true));
     }
-    return availableTimes;
+    return ImmutableList.copyOf(availableTimes);
   }
 
-  private static TimeRange findAvailableTimeRange(TimeRange currentUnavailableTime, int nextAvailableStart, MeetingRequest request) {
+  private static TimeRange findAvailableTimeRange(TimeRange currentUnavailableTime,
+      int nextAvailableStart, MeetingRequest request) {
     TimeRange timeRangeAvailable;
 
     // Add time range only if it can fit the requsted duration
@@ -110,7 +113,8 @@ public final class FindMeetingQuery {
     return timeRangeAvailable;
   }
 
-  private static ImmutableList<TimeRange> getUnavailableTimeRanges(Collection<Event> events, ImmutableList<String> attendees) {
+  private static ImmutableList<TimeRange> getUnavailableTimeRanges(
+      Collection<Event> events, ImmutableList<String> attendees) {
     // Get time ranges from events that include at least one attendee
     ImmutableList<TimeRange> unavailableTimes = 
         Streams.stream(events)
@@ -120,7 +124,8 @@ public final class FindMeetingQuery {
     return unavailableTimes;
   }
 
-  private static ImmutableList<TimeRange> getOverlappingTimeRanges(ImmutableList<TimeRange> requiredTimes, ImmutableList<TimeRange> optionalTimes, MeetingRequest request) {
+  private static ImmutableList<TimeRange> getOverlappingTimeRanges(ImmutableList<TimeRange> requiredTimes,
+      ImmutableList<TimeRange> optionalTimes, MeetingRequest request) {
     List<TimeRange> overlappingAvailableTimes = new ArrayList<TimeRange>();
     int requiredTimeIndex = 0;
     int optionalTimeIndex = 0;

@@ -1,27 +1,23 @@
 package com.google.sps.servlets;
 
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
-import static com.google.common.collect.ImmutableList.toImmutableList;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableList;
-import com.google.gson.Gson;
-import java.io.IOException;
-import java.util.List;
-import com.google.common.collect.Streams;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Streams;
+import com.google.gson.Gson;
+import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 
 @WebServlet("/music-data")
 public class MusicDataServlet extends HttpServlet {
@@ -39,7 +35,8 @@ public class MusicDataServlet extends HttpServlet {
     // Add datastore entities with votes for each genre
     ImmutableMap<String, Integer> genreVotes =
         Streams.stream(results.asIterable())
-            .collect(toImmutableMap(MusicDataServlet::getEntityKey, MusicDataServlet::getEntityValue));
+            .collect(
+                toImmutableMap(MusicDataServlet::getEntityKey, MusicDataServlet::getEntityValue));
 
     String genreVotesJson = convertToJsonUsingGson(genreVotes);
     response.setContentType("application/json");
@@ -71,7 +68,7 @@ public class MusicDataServlet extends HttpServlet {
     PreparedQuery results = datastore.prepare(query);
 
     ImmutableList<Entity> entities = ImmutableList.copyOf(results.asIterable());
-    
+
     datastore.put(getGenreEntity(entities, genre));
 
     response.sendRedirect("/about-you.html");
@@ -82,8 +79,7 @@ public class MusicDataServlet extends HttpServlet {
     if (entities.isEmpty()) {
       genreEntity.setProperty(PROPERTY_GENRE, genre);
       genreEntity.setProperty(PROPERTY_VOTES, 1);
-    }
-    else {
+    } else {
       genreEntity = entities.get(0);
       int numVotes = Integer.parseInt(genreEntity.getProperty(PROPERTY_VOTES).toString()) + 1;
       genreEntity.setProperty(PROPERTY_VOTES, numVotes);

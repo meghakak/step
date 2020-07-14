@@ -45,7 +45,7 @@ function showAccordion() {
   var accordion = document.getElementsByClassName('accordion');
 
   // Open chosen panel(s) and hide all other panels
-  for (const accordionIndex = 0; accordionIndex < accordion.length; accordionIndex++) {
+  for (var accordionIndex = 0; accordionIndex < accordion.length; accordionIndex++) {
     accordion[accordionIndex].addEventListener('click', function() {
       this.classList.toggle('panel-active');
       var panel = this.nextElementSibling;

@@ -2,23 +2,22 @@ package com.google.sps.servlets;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Streams;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.gson.Gson;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Streams;
+import com.google.gson.Gson;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 
 /** Servlet that returns inputted fun facts from users and stores previously inputted facts. */
 @WebServlet("/data")
@@ -53,7 +52,9 @@ public class DataServlet extends HttpServlet {
   }
 
   private static String getContent(Entity entity) {
-    return entity.getProperty(PROPERTY_NAME).toString() + ": " + entity.getProperty(PROPERTY_FACT).toString();
+    return entity.getProperty(PROPERTY_NAME).toString()
+        + ": "
+        + entity.getProperty(PROPERTY_FACT).toString();
   }
 
   private static String convertToJsonUsingGson(ImmutableList<String> oldFacts) {
@@ -89,7 +90,8 @@ public class DataServlet extends HttpServlet {
     response.sendRedirect("/about-you.html");
   }
 
-  private static String getParameter(HttpServletRequest request, String content, String defaultValue) {
+  private static String getParameter(
+      HttpServletRequest request, String content, String defaultValue) {
     String value = request.getParameter(content);
     if (value == null || value.isEmpty()) {
       return defaultValue;

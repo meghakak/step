@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.ArrayList;
  
 public final class FindMeetingQuery {
   private static final int MINUTES_IN_A_DAY = 1440;
@@ -48,9 +49,23 @@ public final class FindMeetingQuery {
 
     // Find all available time ranges for the requested meeting based on the attendees' unavailable times 
     ImmutableList<TimeRange> availableTimes = ImmutableList.copyOf(getAvailableTimeRanges(unavailableTimes, request));
+    nextAvailableStart = TimeRange.START_OF_DAY; // Reset for finding optional available times
     ImmutableList<TimeRange> optionalAvailableTimes = ImmutableList.copyOf(getAvailableTimeRanges(optionalUnavailableTimes, request));
- 
-    return availableTimes;
+
+    
+    if (availableTimes.contains(TimeRange.WHOLE_DAY)){ 
+      // Return the optional time ranges only if there are no other time constraints
+      return optionalAvailableTimes;
+    }
+    else if (optionalAvailableTimes.isEmpty() || optionalAvailableTimes.contains(TimeRange.WHOLE_DAY)) {
+      // No need to check for overlapping times if optional available times do not provide time constraints
+      return availableTimes;
+    }
+
+    // Find overlapping available time ranges and only return if there are any overlapping times, otherwise ignore optional attendees
+    ImmutableList<TimeRange> overlappingAvailableTimes = getOverlappingTimeRanges(availableTimes, optionalAvailableTimes, request);    
+
+    return overlappingAvailableTimes.isEmpty() ? availableTimes : overlappingAvailableTimes;
   }
 
   public final List<TimeRange> getAvailableTimeRanges(ImmutableList<TimeRange> unavailableTimes, MeetingRequest request) {
@@ -103,5 +118,36 @@ public final class FindMeetingQuery {
             .map(Event::getWhen)
             .collect(toImmutableList());
     return unavailableTimes;
+  }
+
+  private static ImmutableList<TimeRange> getOverlappingTimeRanges(ImmutableList<TimeRange> requiredTimes, ImmutableList<TimeRange> optionalTimes, MeetingRequest request) {
+    List<TimeRange> overlappingAvailableTimes = new ArrayList<TimeRange>();
+    int requiredTimeIndex = 0;
+    int optionalTimeIndex = 0;
+
+    while (optionalTimeIndex < optionalTimes.size()) {
+      // Define current available time ranges
+      TimeRange currentRequiredTime = requiredTimes.get(requiredTimeIndex);
+      TimeRange currentOptionalTime = optionalTimes.get(optionalTimeIndex);
+
+      // Only add overlapping time ranges that fit the requested duration
+      if (currentRequiredTime.overlaps(currentOptionalTime)) {
+        // Get the furthest start time and the nearest end time to find the overlapping time range
+        int start = Collections.max(ImmutableList.of(currentRequiredTime.start(), currentOptionalTime.start()));
+        int end = Collections.min(ImmutableList.of(currentRequiredTime.end(), currentOptionalTime.end()));
+        
+        // Add time range only if it can fit the requested meeting duration
+        if(end - start >= request.getDuration()) {
+          overlappingAvailableTimes.add(TimeRange.fromStartEnd(start, end, end == TimeRange.END_OF_DAY));
+        }
+        requiredTimeIndex += 1;
+      }
+      optionalTimeIndex += 1;
+    }
+
+    // Add the last available time range
+    overlappingAvailableTimes.add(requiredTimes.get(requiredTimes.size()-1));
+    
+    return ImmutableList.copyOf(overlappingAvailableTimes);
   }
 }

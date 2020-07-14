@@ -157,7 +157,7 @@ public final class FindMeetingQueryTest {
   }
 
   @Test
-  public void query_everyAttendeeIsConsiderediIncludingOptionalAttendees() {
+  public void query_everyAttendeeIsConsideredIncludingOptionalAttendees() {
     // Have each person have different events. We should see two options because each person has
     // split the restricted times.
     // Events  :             |-----B-----|

@@ -17,7 +17,6 @@ package com.google.sps;
 import static com.google.common.collect.ImmutableList.toImmutableList;
  
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
 import java.util.stream.Collectors;
 import java.util.Collection;
@@ -35,22 +34,28 @@ public final class FindMeetingQuery {
       return ImmutableList.of();
     }
  
-    ImmutableSet<String> requiredAttendees = ImmutableSet.copyOf(request.getAttendees());
+    ImmutableList<String> requiredAttendees = ImmutableList.copyOf(request.getAttendees());
+    ImmutableList<String> optionalAttendees = ImmutableList.copyOf(request.getOptionalAttendees());
  
-    // Get time ranges from events that include at least one required attendee
-    ImmutableList<TimeRange> unavailableTimes = 
-        Streams.stream(events)
-            .filter(event -> !Collections.disjoint(requiredAttendees, event.getAttendees()))
-            .map(Event::getWhen)
-            .collect(toImmutableList());
+    // Get required and optional unavailable time ranges
+    ImmutableList<TimeRange> unavailableTimes = getUnavailableTimeRanges(events, requiredAttendees);
+    ImmutableList<TimeRange> optionalUnavailableTimes = getUnavailableTimeRanges(events, optionalAttendees);
  
     // No unavailable time ranges means the entire day is available
-    if (unavailableTimes.isEmpty()) {
+    if (unavailableTimes.isEmpty() && optionalUnavailableTimes.isEmpty()) {
       return ImmutableList.of(TimeRange.WHOLE_DAY);
     }
 
-    // TODO: Change structure to not update a class variable in the stream
     // Find all available time ranges for the requested meeting based on the attendees' unavailable times 
+    ImmutableList<TimeRange> availableTimes = ImmutableList.copyOf(getAvailableTimeRanges(unavailableTimes, request));
+    ImmutableList<TimeRange> optionalAvailableTimes = ImmutableList.copyOf(getAvailableTimeRanges(optionalUnavailableTimes, request));
+ 
+    return availableTimes;
+  }
+
+  public final List<TimeRange> getAvailableTimeRanges(ImmutableList<TimeRange> unavailableTimes, MeetingRequest request) {
+    // Method must be public final to access nextAvailableStart and update it in the lambda function
+    // TODO: Change structure to not update a class variable in the stream
     List<TimeRange> availableTimes = 
         unavailableTimes.stream()
             .map(currentUnavailableTime -> {
@@ -72,7 +77,6 @@ public final class FindMeetingQuery {
     if(nextAvailableStart < TimeRange.END_OF_DAY) {
       availableTimes.add(TimeRange.fromStartEnd(nextAvailableStart, TimeRange.END_OF_DAY, true));
     }
- 
     return availableTimes;
   }
 
@@ -89,5 +93,15 @@ public final class FindMeetingQuery {
     }
 
     return timeRangeAvailable;
+  }
+
+  private static ImmutableList<TimeRange> getUnavailableTimeRanges(Collection<Event> events, ImmutableList<String> attendees) {
+    // Get time ranges from events that include at least one attendee
+    ImmutableList<TimeRange> unavailableTimes = 
+        Streams.stream(events)
+            .filter(event -> !Collections.disjoint(attendees, event.getAttendees()))
+            .map(Event::getWhen)
+            .collect(toImmutableList());
+    return unavailableTimes;
   }
 }

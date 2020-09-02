@@ -1,2 +1,3 @@
 target/
 .idea
+datastore-indexes.xml
